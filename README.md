@@ -1,7 +1,5 @@
 # Sharing for a friend :)
 
-The friend is both the writer and the reader. In the true tradition of H = F³.
-
 This is a shelf of free books and other cool free things. No signup, no tracking,
 just files.
 

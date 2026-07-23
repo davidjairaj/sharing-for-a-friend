@@ -33,15 +33,7 @@ body {
 
 .wrap { width:min(1080px, 92vw); margin:0 auto; }
 
-.topline {
-  font:400 14px/1 'Plex', monospace; letter-spacing:.22em; text-transform:uppercase;
-  padding:28px 0; color:var(--ink);
-  display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
-}
-.topline .smile { color:var(--blue); }
-.topline .who { color:var(--dim); letter-spacing:.14em; text-transform:none; }
-
-.hero { padding:52px 0 8px; }
+.hero { padding:84px 0 8px; }
 .kicker {
   font:400 14px/1 'Plex', monospace; letter-spacing:.28em; text-transform:uppercase;
   color:var(--blue); margin-bottom:22px;
@@ -86,6 +78,13 @@ h1 {
 .v3 .bar { background:var(--red); }   .v3 .no, .v3 .cta { color:var(--red); }
 .vol:hover .cta::after, .vol:focus-visible .cta::after { content:' ->'; }
 
+.author { padding:44px 0 0; max-width:62ch; }
+.author .akicker {
+  font:400 13px/1 'Plex', monospace; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--dim); margin-bottom:14px;
+}
+.author p { font-size:18px; line-height:1.65; color:#4b443c; }
+
 .freeline {
   padding:26px 0 70px; max-width:62ch;
   font:italic 400 18px/1.65 'Lora', serif; color:#4b443c;
@@ -113,11 +112,6 @@ footer .h { color:var(--paper); letter-spacing:.1em; }
 <body>
 
 <div class="wrap">
-  <div class="topline reveal d1">
-    <span>Sharing for a friend <span class="smile">:)</span></span>
-    <span class="who">the friend is both the writer and the reader</span>
-  </div>
-
   <header class="hero">
     <div class="kicker reveal d2">free books, no catch</div>
     <h1 class="reveal d2">CONVERSATIONS WITH CLAUDE</h1>
@@ -134,7 +128,7 @@ footer .h { color:var(--paper); letter-spacing:.1em; }
   </header>
 
   <main class="shelf">
-    <a class="vol v1 reveal d4" href="books/conversations-with-claude/conversations-with-claude-vol1.pdf">
+    <a class="vol v1 reveal d4" target="_blank" rel="noopener" href="books/conversations-with-claude/conversations-with-claude-vol1.pdf">
       <div class="bar"></div>
       <div class="inner">
         <div class="no">VOLUME ONE</div>
@@ -144,7 +138,7 @@ footer .h { color:var(--paper); letter-spacing:.1em; }
         <span class="cta">READ THE PDF</span><span class="pages">93 pages</span>
       </div>
     </a>
-    <a class="vol v2 reveal d5" href="books/conversations-with-claude/conversations-with-claude-vol2.pdf">
+    <a class="vol v2 reveal d5" target="_blank" rel="noopener" href="books/conversations-with-claude/conversations-with-claude-vol2.pdf">
       <div class="bar"></div>
       <div class="inner">
         <div class="no">VOLUME TWO</div>
@@ -154,7 +148,7 @@ footer .h { color:var(--paper); letter-spacing:.1em; }
         <span class="cta">READ THE PDF</span><span class="pages">90 pages</span>
       </div>
     </a>
-    <a class="vol v3 reveal d6" href="books/conversations-with-claude/conversations-with-claude-vol3.pdf">
+    <a class="vol v3 reveal d6" target="_blank" rel="noopener" href="books/conversations-with-claude/conversations-with-claude-vol3.pdf">
       <div class="bar"></div>
       <div class="inner">
         <div class="no">VOLUME THREE</div>
@@ -166,17 +160,25 @@ footer .h { color:var(--paper); letter-spacing:.1em; }
     </a>
   </main>
 
+  <section class="author reveal d6">
+    <div class="akicker">the author</div>
+    <p>Suraaj Chandra Jha is a hacker in the old, joyful sense of the word: a person
+    who delights in understanding systems and making them do wonderful things. He
+    wrote these three volumes so that the people he loves would stop asking him what
+    a token is. It worked. Now they ask him about agents. He considers this a
+    successful upgrade.</p>
+  </section>
+
   <p class="freeline reveal d6">These books are free and always will be. Send them to
   anyone. Keep them whole, keep the name on them
-  (<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>).
+  (<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>).
   Not affiliated with Anthropic. More free things will appear on this shelf.</p>
 </div>
 
 <footer>
   <div class="wrap">
-    <span>Sharing for a friend :)</span>
-    <span class="h">H&nbsp;=&nbsp;F&sup3;</span>
     <span class="dim">no signup, no tracking, just PDFs</span>
+    <span class="dim">CC BY-NC-ND 4.0</span>
   </div>
 </footer>
 
