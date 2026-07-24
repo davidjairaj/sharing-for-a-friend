@@ -11,7 +11,7 @@ and read until they run their own agents.
 - Volume Two: THE CONTEXT WINDOW
 - Volume Three: PLEASE UPGRADE YOUR PLAN
 
-Each PDF opens full screen. You press next. That is the whole interface.
+Each PDF opens full screen. You press next.
 
 Everything here is free to pass on whole, with the name kept on it
 (CC BY-NC-ND 4.0). Not affiliated with Anthropic.
