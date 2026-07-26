@@ -1,0 +1,7 @@
+# Local working notes. They carry local paths and session detail, and they stay
+# out of the published repository.
+LKGS.md
+REVISIT.md
+
+# macOS
+.DS_Store
