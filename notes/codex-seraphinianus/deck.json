@@ -1,0 +1,258 @@
+{
+  "series": "SHARING FOR A FRIEND",
+  "author": "Suraaj Chandra Jha",
+  "title": "CODEX SERAPHINIANUS",
+  "subtitle": "A cryptanalysis, and the translation that survives it",
+  "kind": "RESEARCH NOTE",
+  "date": "26 JULY 2026",
+
+  "free_page": "This note is free. It always will be. If someone charged you for it, you were scammed, and you should ask them for their marketing secrets. Send it to anyone: mail it, post it, print it and leave it on a train. Just keep it whole and keep my name on it. That is the entire license fee. The long version is CC BY-NC-ND 4.0.",
+
+  "how_to_read": "Read it full screen. Press next. One idea per page, in order, in about twenty minutes. Or skip around. Every page stands on its own.\n\nThere is a shorter version on the web at davidjairaj.github.io/sharing-for-a-friend, if you would rather scroll than click.",
+
+  "disclaimer": "Codex Seraphinianus was made by Luigi Serafini and is published by Rizzoli. This note is not: not affiliated, not endorsed, not reviewed. I am a reader with a corpus and a pile of statistics.\n\nThe interpretive translation at the end is my own reading of the book. I am not offering it as a decipherment. Nobody has one of those.",
+
+  "about": "Suraaj Chandra Jha is a hacker in the old, joyful sense of the word: a person who delights in understanding systems and making them do wonderful things.\n\nHe picked this book up intending to decode it, and put it down having been decoded by it. He considers that a fair trade.",
+
+  "share": "If this note taught you one thing, send it to one person. That is the license fee.\n\nIt lives at davidjairaj.github.io/sharing-for-a-friend, free, always, along with everything else on the shelf.",
+
+  "sections": [
+    {
+      "section": 1,
+      "title": "THE FINDING",
+      "epigraph": "Start with the answer, so you can leave whenever you like.",
+      "pages": [
+        {
+          "kicker": "the verdict",
+          "headline": "There is nothing to translate.",
+          "body": "The writing in this book is almost certainly asemic. Asemic means it has the shape of writing and none of the content. Strokes rise and fall like sentences. Gaps sit where words would go. Blocks land on the page like paragraphs. Underneath all of it, nothing is encoded.\n\nForty five years of people trying to read this script, and the reason nobody has managed it is that there is no it to read.",
+          "footnote": "Serafini has said so himself, in public, more than once. We get to that shortly."
+        },
+        {
+          "kicker": "the exceptions",
+          "headline": "Two things do decode.",
+          "body": "The page numbers are real. They run in a consistent positional system and you can work it out from scratch, with no help from anyone.\n\nThe pictures are real too, and they are extremely articulate. They carry sequence, argument, jokes and a governing law. So the honest verdict is a narrow one. No sentence by sentence translation, now or probably ever. Everything else in the book is open for business."
+        },
+        {
+          "kicker": "why this is good news",
+          "headline": "The failure is the design.",
+          "body": "Serafini built an encyclopedia with every mark of authority in place and the meaning taken out from underneath it. Numbered specimens. Neat cutaways. Arrows pointing at the important part. Captions in a confident hand that say nothing at all.\n\nWhat you feel while reading it is the appetite for meaning, running on its own, before any meaning arrives. That is the machine working."
+        }
+      ]
+    },
+    {
+      "section": 2,
+      "title": "THREE QUESTIONS",
+      "epigraph": "Most of the mystery here is one question badly asked.",
+      "pages": [
+        {
+          "kicker": "the confusion",
+          "headline": "Ask three questions, not one.",
+          "body": "Ask whether the Codex has been decoded and you are really asking three separate things at once.\n\nDo the page numbers decode? Yes. Is the script enciphered prose? Nothing shows that it is. Can you read the book? Yes, and this is the part people skip.\n\nSeparate them and most of the mystery sorts itself out. The three answers point in different directions, and collapsing them into one makes the whole thing look unanswerable."
+        },
+        {
+          "kicker": "the standard",
+          "headline": "A decipherment has to clear a bar.",
+          "body": "State a rule. Apply that rule to a passage nobody chose in advance. Explain the odd bits without inventing a fresh rule every time one turns up. Then hand the whole thing to a stranger and have them arrive at your answer.\n\nThat is the bar. It is the ordinary one, and every real decipherment in history has cleared it. Nothing proposed for the Codex ever has.",
+          "footnote": "Producing evocative sentences is not decoding. Anyone can do the first one, and many have."
+        }
+      ]
+    },
+    {
+      "section": 3,
+      "title": "AGAINST A CIPHER",
+      "epigraph": "The author says so. The numbers agree with him.",
+      "pages": [
+        {
+          "kicker": "the author",
+          "headline": "Serafini keeps telling us.",
+          "body": "He has said in public, more than once, that the writing is asemic. He called the construction a game.\n\nHe tied it to something you probably remember: being small, holding a book, seeing that the marks obviously mean something to the adults in the room, and being locked out. The marks are beautiful and alive and closed.\n\nHe was not hiding an Italian manuscript. He was rebuilding that feeling for people who had grown out of it.",
+          "footnote": "Interviews with WIRED in 2013 and Artribune in 2022. Both are in the sources at the end."
+        },
+        {
+          "kicker": "the structure",
+          "headline": "The shapes almost never repeat.",
+          "body": "Jeffrey Stanley's 2010 thesis found real regularities in the script. Headers that follow a formula. Glyphs with positional habits. Variation kept under control.\n\nIt also found an enormous supply of one off shapes, and very little exact reuse of long words. Language under a simple cipher does not behave like that. Language reuses relentlessly. Disciplined drawing behaves exactly like that. A hand repeats gestures without repeating words."
+        },
+        {
+          "kicker": "the corpus",
+          "headline": "Then somebody transcribed it.",
+          "body": "Marco Ponzi's 2023 neural transcription changed what is possible here. It produced the first machine readable version of the script. The transcription is approximate, with reported validation character error near 18 percent.\n\nIt still surfaces behavior you can measure: doubling, effects tied to where a glyph sits in the line, and a shift in habits between the two original volumes. Those facts describe how the writing system was built. They do not say it means anything."
+        },
+        {
+          "type": "table",
+          "kicker": "the numbers",
+          "headline": "The Codex against real language.",
+          "footnote": "Conditional entropy is measured on successive characters. Near repeats are adjacent tokens one edit apart."
+        },
+        {
+          "type": "chart",
+          "kicker": "the same numbers, drawn",
+          "headline": "Real language surprises you more.",
+          "body": "Conditional entropy asks how much a character surprises you given the one before it, counted in bits. Lower means more predictable.\n\nEnglish and Italian sit near three bits. The Codex sits at 1.96. That gap is not small. It points at a hand drawing consistent shapes."
+        },
+        {
+          "kicker": "repetition",
+          "headline": "It echoes itself constantly.",
+          "body": "Dante puts two identical tokens side by side five times in ten thousand. The Codex does it seventy two times in ten thousand. Allow one edit between the pair and the gap widens again.\n\nCollapse repeated strokes, on the theory that the transcription splits decorative elongation into separate characters, and the entropy barely moves while the repeat rates climb higher still. That is ornament and echo."
+        },
+        {
+          "kicker": "the honest caveat",
+          "headline": "None of this proves it alone.",
+          "body": "No single statistic settles the question, and I am not going to pretend otherwise. Transcription error inflates the count of unique shapes. A plain letter for letter substitution preserves a great deal of sequence statistics, so low entropy on its own convicts nobody.\n\nWhat convicts is the convergence. The author's own account, the structural analysis, and the corpus behavior all point the same way at once."
+        },
+        {
+          "kicker": "the fingerprints",
+          "headline": "A cipher would have left tracks.",
+          "body": "A plain substitution leaves repeated word shapes. It leaves a handful of short grammatical items turning up everywhere, the way \"the\" and \"di\" do. It leaves a mapping that somebody, in forty five years of this much attention, would have found by now.\n\nNone of those tracks are in the book. You can always propose an exotic cipher, a private one time pad, a rule that changes on every page. Without a key or a known plaintext, none of it can be tested.",
+          "footnote": "Those proposals do not produce a translation. They preserve the hope of one. That is a different product."
+        }
+      ]
+    },
+    {
+      "section": 4,
+      "title": "WHAT DOES DECODE",
+      "epigraph": "Two things, and both of them are worth having.",
+      "pages": [
+        {
+          "kicker": "base 21",
+          "headline": "The page numbers are your crack.",
+          "body": "Pages run in order. That hands you the one piece of plaintext in the whole volume. It is exactly what a cryptanalyst needs and almost never gets.\n\nFrom the sequence you read off the digit values and watch the carries happen. What comes out is a positional system in base 21. Ours carries at ten. This one carries at twenty one, so each new position is worth twenty one times the one to its right.",
+          "footnote": "This clears the bar from earlier. It predicts. Show it a page you have not seen and it tells you the number."
+        },
+        {
+          "kicker": "the page grammar",
+          "headline": "The layout reads. The words do not.",
+          "body": "Big strings sit where headings sit. Dense blocks behave like exposition. Short strings hang off specimens like labels. Repeated marks build the cadence of a list, a caption, a formula, a cross reference.\n\nYou can tell all of those apart at a glance without reading anything. That grammar is real, and it is only the grammar of an encyclopedia page. It tells you about layout. It tells you nothing about Italian."
+        }
+      ]
+    },
+    {
+      "section": 5,
+      "title": "THE JUNE 2026 CLAIM",
+      "epigraph": "Somebody solves this book every few years.",
+      "pages": [
+        {
+          "kicker": "the claim",
+          "headline": "Somebody solved it again.",
+          "body": "A self published book turned up in June 2026: Codex Seraphinianus Decoded, credited to \"Mario Serafiniphallus\". It claims a complete solution by an unexplained \"72 band frequency\" method, and identifies a hidden Rosetta glossary on pages 357 and 358.\n\nThis is the kind of thing you check. The whole argument so far has been about standards of evidence. So I checked it."
+        },
+        {
+          "kicker": "four failures",
+          "headline": "It does not survive first contact.",
+          "body": "No key: the listing supplies neither a full glyph mapping nor an algorithm you could run on a passage of your own choosing.\n\nThe corpus does not match: it cites 41,107 words, while the public release holds about 47,227 raw words and this analysis kept 44,452 tokens after filtering.\n\nThe glossary is not a glossary: pages 357 and 358 are index entries ending in numerals.\n\nAnd nobody has checked it. No blind test, no review, no replication."
+        },
+        {
+          "kicker": "the verdict",
+          "headline": "Interesting assertion, no method.",
+          "body": "That verdict is reversible, and I would enjoy reversing it. Publish a stable key. Then pass a blind test on passages you did not pick yourself.\n\nDo those two things and the book changes, the field changes, and I rewrite this note happily. The 2026 listing does neither, which puts it in the same pile as every confident decoding that came before it."
+        }
+      ]
+    },
+    {
+      "section": 6,
+      "title": "THE TRANSLATION",
+      "epigraph": "Translate what the book does.",
+      "pages": [
+        {
+          "kicker": "the other kind",
+          "headline": "Translate what the book does.",
+          "body": "A literal translation would mean writing sentences the book does not contain and putting Serafini's name on them. That is forgery in a scholarly font.\n\nHere is the other kind. Take the operations the book repeats, the order it moves in, and the thing it does to you while you hold it, and render those into a proposition. The book is articulate in every register except the verbal one."
+        },
+        {
+          "kicker": "the movement",
+          "headline": "Every category leaks.",
+          "body": "Eleven chapters run from flora and fauna through physics and machines into anatomy, history, language, food, clothing, games and architecture. That is the classical encyclopedia's promise: the whole world, put in order.\n\nAnd every category leaks into the one beside it. Plants become objects and furniture. Animals merge with clothing and devices. Limbs grow tools. Bodies, letters, houses and landscapes trade properties back and forth."
+        },
+        {
+          "kicker": "the law",
+          "headline": "Metamorphosis, not identity.",
+          "body": "The most famous plate in the book shows two lovers becoming an alligator. That plate states the book's law.\n\nNothing keeps the identity you assign it. Form is temporary. A classification is a snapshot of something still moving. The encyclopedia is trying to pin the world down, and the world will not hold still under the pin."
+        },
+        {
+          "kicker": "taxonomy",
+          "headline": "Naming is an act of invention.",
+          "body": "The layouts borrow their authority from botany, zoology, engineering, medicine and history. Point that borrowed authority at creatures which cannot exist, and you expose what it was doing all along.\n\nNames and diagrams decide what counts as a thing, where one thing stops and the next begins, and which differences are worth a category."
+        },
+        {
+          "kicker": "authority",
+          "headline": "A diagram buys trust on credit.",
+          "body": "Precise arrows. Numbered specimens. Technical cutaways. Captions in a confident hand.\n\nNonsense arrives looking official, and you believe the page for a second before you have understood anything on it. Every reference book you trust is running the same equipment. The Codex runs it with the cargo removed, so you can watch the machinery on its own."
+        },
+        {
+          "kicker": "the reader",
+          "headline": "You are supplying the meaning.",
+          "body": "The script will not let you in, so you start filling the gap yourself. A guess. A mood. A joke. A story about what that creature is for and how it lives.\n\nWhat you are watching is your own reading machinery running with nothing fed into it. Ordinary reading was always this much projection. You never got to see it by itself, with the text removed."
+        },
+        {
+          "kicker": "the state",
+          "headline": "Wonder comes before comprehension.",
+          "body": "The invented writing puts an adult back at the edge of literacy, where marks are beautiful and full of promise and closed.\n\nThe frustration is deliberate, and it is doing something for you. It reopens the state in which the world looks meaningful before it becomes familiar. Most of us left that state around the age of six and have not been back since."
+        },
+        {
+          "type": "statement",
+          "dark": true,
+          "kicker": "the interpretive translation",
+          "headline": "The translation.",
+          "body": "The world will not fit inside our categories. Everything turns into everything else, and the systems that claim to explain it are inventions too.\n\nWhen language stops handing you meaning, you find out how much of it you were making yourself."
+        },
+        {
+          "kicker": "the machines",
+          "headline": "Why this book eats machines.",
+          "body": "The Codex is fluent form with no semantic ground underneath. That is exactly the input that makes a decipherer, or a language model, produce a confident and entirely invented answer.\n\nAsk a model to translate a page and it will. It will name the specimen, describe the process, and hand you a sentence with a subject and a verb in it. Ask again and you get a different sentence, just as smooth. Nothing on the page ever said either one.",
+          "footnote": "The honest move is to see the bait, refuse it, and translate the experience instead."
+        },
+        {
+          "kicker": "the conclusion",
+          "headline": "The negative result turns positive.",
+          "body": "The pagination is a code. The script is an asemic construction. The meaning lives in the pictures and in what happens to you while you look at them.\n\nAnyone can produce a poetic decoding, and several people have. A real decipherment needs a key that predicts text nobody has shown it, and nobody has one. The book demonstrates how completely the shape of knowledge can hold you, long after the words underneath it have gone quiet."
+        }
+      ]
+    },
+    {
+      "section": 7,
+      "title": "METHOD AND SOURCES",
+      "epigraph": "Everything you need in order to check me.",
+      "pages": [
+        {
+          "kicker": "method",
+          "headline": "How this was done.",
+          "body": "The source is a 359 page PDF. The analysis combined visual inspection of representative pages and the closing pages, published author interviews and scholarship, and a fresh comparison of the public neural transcription against 20,000 word English and Italian literary controls. The filtered Codex corpus held 44,452 tokens.\n\nConditional entropy was computed on successive characters. The exact repeat rate counts adjacent identical tokens. The near repeat rate counts tokens one Levenshtein edit apart."
+        },
+        {
+          "kicker": "the limits",
+          "headline": "What could be wrong here.",
+          "body": "These measures describe local structure and say nothing about meaning. Transcription noise, uncertain glyph segmentation and the absence of any authorial plaintext limit every corpus level claim in this note.\n\nIf a better transcription arrives, the numbers move. If a key arrives, the whole argument goes in the bin, and that would be the best possible outcome. All sources were reviewed on 26 July 2026."
+        },
+        {
+          "type": "sources",
+          "kicker": "sources",
+          "headline": "Go and check."
+        }
+      ]
+    }
+  ],
+
+  "sources": [
+    ["Luigi Serafini interview", "WIRED, on the strangest book in the world (2013)", "wired.com/2013/10/codex-seraphinianus-interview"],
+    ["Luigi Serafini interview", "Artribune, on the Codex and the encyclopedia form (2022)", "artribune.com/professioni-e-professionisti/who-is-who/2022/10/intervista-luigi-serafini-enciclopedia-codex-seraphinianus"],
+    ["Jeffrey Stanley", "The Codex Seraphinianus: A New Analysis. MSc thesis, NC State (2010)", "repository.lib.ncsu.edu/items/2f692480-0d8c-49f0-814f-57cbb4fb4fc2"],
+    ["Marco Ponzi", "Neural Network Transliteration of the Codex Seraphinianus (2023)", "medium.com/viridisgreen/neural-network-transliteration-of-the-codex-seraphinianus-37430bfa6c3d"],
+    ["Codex OCR corpus", "The public neural OCR transliteration repository", "github.com/marcoponzi/codex_seraphinianus_ocr"],
+    ["Natura denaturans", "Image & Narrative, on nature and representation in the Codex", "risejournal.eu/index.php/imagenarrative/article/download/2064/1614/6096"],
+    ["Triennale Milano", "Institutional overview of the Codex Seraphinianus", "triennale.org/en/magazine/codex-seraphinianus"],
+    ["Rizzoli", "Publisher page for the fortieth anniversary edition", "rizzoliusa.com/book/9780847871049/1000"],
+    ["Codex Seraphinianus Decoded", "Google Books listing for the June 2026 decoding claim", "books.google.com/books/about/Codex_Seraphinianus_Decoded.html?id=S5Ug0gEACAAJ"]
+  ],
+
+  "table": {
+    "caption": "Table 1: the Codex against two literary controls",
+    "head": ["Corpus", "Next-character H₂", "Exact adjacent repeats", "One-edit near repeats"],
+    "rows": [
+      ["Codex OCR, 44,452 tokens", "1.96 bits", "0.72%", "1.33%"],
+      ["English, Alice, 20,000 words", "3.07 bits", "0.19%", "0.17%"],
+      ["Italian, Dante, 20,000 words", "2.98 bits", "0.05%", "0.16%"]
+    ],
+    "subject": 0
+  }
+}

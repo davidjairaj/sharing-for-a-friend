@@ -1,11 +1,12 @@
-# Sharing for a friend :)
+# Sharing for a friend :-)
 
-This is a shelf of free books and other cool free things. No signup, no tracking,
-just files.
+A shelf of free things by Suraaj Chandra Jha. Books, research notes, whatever else
+gets finished. No signup, no tracking, just files.
 
-First on the shelf: **CONVERSATIONS WITH CLAUDE** by Suraaj Chandra Jha, a
-three-volume book about talking to machines, written for readers who know nothing
-and read until they run their own agents.
+## Books
+
+**CONVERSATIONS WITH CLAUDE**, a three-volume book about talking to machines,
+written for readers who know nothing and read until they run their own agents.
 
 - Volume One: THE INFINITE
 - Volume Two: THE CONTEXT WINDOW
@@ -13,8 +14,20 @@ and read until they run their own agents.
 
 Each PDF opens full screen. You press next.
 
-Everything here is free to pass on whole, with the name kept on it
-(CC BY-NC-ND 4.0). Not affiliated with Anthropic.
+## Research notes
 
-Site: the `index.html` at the root is the shelf. Fonts are OFL licensed
-(license texts in `fonts/`).
+**CODEX SERAPHINIANUS**, a cryptanalysis of the script in Luigi Serafini's 1981
+encyclopedia, and the interpretive translation that survives the negative result.
+Reads on the web at `notes/codex-seraphinianus/`, with the full note as a PDF.
+
+Everything here is free to pass on whole, with the name kept on it
+(CC BY-NC-ND 4.0). Not affiliated with Anthropic, Luigi Serafini, or Rizzoli.
+
+## Layout
+
+`index.html` at the root is the shelf. Book PDFs are rendered elsewhere and copied
+into `books/`. The Codex note builds in place: `notes/codex-seraphinianus/deck.json`
+holds the prose and `build.py` renders it to `deck.html` and then to the published
+PDF. The PDF is never hand-edited. Every PDF on the shelf is the same artifact:
+1280x720 landscape pages, one idea per page, opening full screen. Fonts are OFL
+licensed, with license texts in `fonts/`.

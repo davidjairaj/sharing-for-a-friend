@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex Seraphinianus: a cryptanalysis</title>
+<meta name="description" content="Nobody has decoded the Codex Seraphinianus. A cryptanalysis by Suraaj Chandra Jha: what the script is, what does decode, and what the book says anyway. Free, no signup.">
+<meta property="og:title" content="Codex Seraphinianus: a cryptanalysis">
+<meta property="og:description" content="The script is asemic. The page numbers are base 21. The pictures say plenty. A free research note by Suraaj Chandra Jha.">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2314110C'/%3E%3Ctext x='50' y='70' font-size='46' text-anchor='middle' fill='%23FAF6EE' font-family='monospace'%3E:-)%3C/text%3E%3C/svg%3E">
+<style>
+@font-face { font-family:'Bricolage'; src:url('../../fonts/BricolageGrotesque-Bold.ttf'); font-weight:700; font-display:swap; }
+@font-face { font-family:'Bricolage'; src:url('../../fonts/BricolageGrotesque-Regular.ttf'); font-weight:400; font-display:swap; }
+@font-face { font-family:'Lora'; src:url('../../fonts/Lora-Regular.ttf'); font-weight:400; font-display:swap; }
+@font-face { font-family:'Lora'; src:url('../../fonts/Lora-Italic.ttf'); font-weight:400; font-style:italic; font-display:swap; }
+@font-face { font-family:'Plex'; src:url('../../fonts/IBMPlexMono-Regular.ttf'); font-weight:400; font-display:swap; }
+@font-face { font-family:'Plex'; src:url('../../fonts/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:swap; }
+
+:root {
+  --paper:#FAF6EE; --ink:#171310; --night:#14110C; --dim:#8A8177;
+  --body:#4b443c; --violet:#6B3FA0; --violet-b:#C9A6F0;
+  --rule:rgba(23,19,16,.14);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--paper); color:var(--ink);
+  font:400 19px/1.62 'Lora', Georgia, serif;
+  min-height:100svh; display:flex; flex-direction:column;
+}
+::selection { background:var(--violet); color:var(--paper); }
+
+.wrap { width:min(1080px, 92vw); margin:0 auto; }
+/* the reading column is narrow; the chart is allowed the full width */
+main > p, main > h2, main > .trans, main > .get,
+main > .freeline { max-width:64ch; }
+
+.back {
+  display:inline-block; margin-top:36px; text-decoration:none;
+  font:400 13px/1 'Plex', monospace; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--dim); border-bottom:1px solid transparent; padding-bottom:3px;
+}
+.back:hover, .back:focus-visible { color:var(--ink); border-bottom-color:var(--violet); }
+
+.hero { padding:30px 0 8px; }
+.kicker {
+  font:400 14px/1 'Plex', monospace; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--violet); margin-bottom:20px;
+}
+h1 {
+  font:700 clamp(40px, 7.4vw, 92px)/0.98 'Bricolage', sans-serif;
+  letter-spacing:-0.02em; max-width:13ch;
+}
+.sub { font:400 clamp(20px,2.4vw,26px)/1.35 'Lora', serif; margin-top:20px; max-width:34ch; color:var(--body); }
+.byline {
+  font:400 14px/1.6 'Plex', monospace; color:var(--dim); margin-top:26px;
+  padding-top:16px; border-top:1px solid var(--rule); letter-spacing:.03em; max-width:56ch;
+}
+.byline b { color:var(--ink); font-weight:700; }
+
+.verdict {
+  background:var(--night); color:var(--paper); border-radius:12px;
+  padding:28px 32px; margin-top:34px; max-width:62ch;
+}
+.verdict .vk {
+  font:700 13px/1 'Plex', monospace; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--violet-b); margin-bottom:16px;
+}
+.verdict p { font-size:18px; line-height:1.62; }
+.verdict p + p { margin-top:14px; }
+
+main { padding-top:8px; }
+h2 {
+  font:700 clamp(26px,3vw,36px)/1.1 'Bricolage', sans-serif; letter-spacing:-0.015em;
+  margin-top:56px; padding-top:18px; border-top:2px solid var(--ink); max-width:20ch;
+}
+p { margin-top:18px; }
+.lede { margin-top:34px; }
+strong { font-weight:700; }
+a.inline { color:var(--ink); text-decoration:none; border-bottom:1px solid var(--violet); }
+a.inline:hover { background:rgba(107,63,160,.1); }
+
+/* chart */
+.chart { margin:38px 0 0; width:min(100%, 1000px); }
+.chart .ck {
+  font:700 13px/1 'Plex', monospace; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--violet); margin-bottom:6px;
+}
+.chart .cn { font:400 14px/1.5 'Plex', monospace; color:var(--dim); max-width:70ch; margin-top:14px; }
+.panes { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:20px; }
+@media (max-width:780px) { .panes { grid-template-columns:1fr; } }
+.panes svg { width:100%; height:auto; display:block; }
+.ct { font:700 12.5px 'Plex', monospace; letter-spacing:.12em; text-transform:uppercase; fill:var(--ink); }
+.cu { font:400 12px 'Plex', monospace; fill:var(--dim); }
+.cl { font:400 13px 'Plex', monospace; fill:var(--body); }
+.cl.sub { font-weight:700; fill:var(--violet); }
+.cv { font:700 13px 'Plex', monospace; fill:var(--ink); }
+
+/* the interpretive translation */
+.trans {
+  margin-top:44px; padding:30px 34px; border:2px solid var(--violet); border-radius:12px;
+  max-width:58ch;
+}
+.trans .tk {
+  font:700 13px/1 'Plex', monospace; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--violet); margin-bottom:16px;
+}
+.trans p { font:400 clamp(20px,2.3vw,25px)/1.42 'Lora', serif; margin:0; }
+
+/* download */
+.get {
+  display:block; text-decoration:none; color:var(--ink);
+  border:1.5px solid rgba(23,19,16,.16); border-radius:12px; overflow:hidden;
+  margin-top:56px; max-width:62ch;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.get:hover, .get:focus-visible { transform:translateY(-4px); box-shadow:0 14px 34px rgba(23,19,16,.14); }
+.get:focus-visible { outline:3px solid var(--ink); outline-offset:3px; }
+.get .bar { height:10px; background:var(--violet); }
+.get .inner { padding:26px 30px 28px; }
+.get .no { font:700 15px/1 'Plex', monospace; letter-spacing:.2em; color:var(--violet); margin-bottom:14px; }
+.get h3 { font:700 clamp(24px,2.5vw,31px)/1.05 'Bricolage', sans-serif; letter-spacing:-0.015em; }
+.get p { font-size:16.5px; line-height:1.55; margin-top:12px; color:var(--body); }
+.get .cta { font:700 14px/1 'Plex', monospace; letter-spacing:.12em; color:var(--violet); margin-top:20px; display:inline-block; }
+.get .pages { font:400 12.5px/1 'Plex', monospace; color:var(--dim); margin-left:10px; }
+.get:hover .cta::after, .get:focus-visible .cta::after { content:' ->'; }
+
+.freeline {
+  padding:44px 0 70px; max-width:62ch;
+  font:italic 400 18px/1.65 'Lora', serif; color:var(--body);
+}
+.freeline a { color:var(--ink); }
+
+footer { margin-top:auto; background:var(--night); color:var(--paper); }
+footer .wrap {
+  padding:34px 0; display:flex; justify-content:space-between; align-items:baseline;
+  gap:18px; flex-wrap:wrap; font:400 13.5px/1.7 'Plex', monospace;
+}
+footer .dim { color:var(--dim); }
+footer a { color:var(--paper); text-decoration:none; border-bottom:1px solid var(--violet); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <a class="back" href="../../">&lt;- the shelf</a>
+
+  <header class="hero">
+    <div class="kicker">research note &middot; 26 july 2026</div>
+    <h1>CODEX SERAPHINIANUS</h1>
+    <p class="sub">A cryptanalysis, and the translation that survives it.</p>
+    <p class="byline">by <b>Suraaj Chandra Jha</b><br>
+    Free to read here, free to download, free to pass on.</p>
+
+    <div class="verdict">
+      <div class="vk">the finding, up front</div>
+      <p>The writing is almost certainly asemic. Asemic means it has the shape of writing
+      and none of the content: strokes that rise and fall like sentences, gaps where words
+      would go, blocks that sit on the page like paragraphs, and nothing encoded
+      underneath.</p>
+      <p>The page numbers are a different matter. Those decode cleanly. The pictures are a
+      different matter again. Those are extremely articulate.</p>
+    </div>
+  </header>
+
+  <main>
+    <p class="lede">In 1981 an Italian architect published a 359 page encyclopedia of a
+    world that does not exist. Flora and fauna, physics and machines, anatomy, history,
+    food, clothing, games, architecture, laid out with total confidence: numbered
+    specimens, neat cutaways, arrows pointing at the important part. Every page is
+    captioned in a flowing hand, and in forty five years nobody has read a word of it.</p>
+
+    <p>People keep announcing that they have. Someone announced it again in June 2026. So I
+    took the thing apart. This page is the short version. The full note, with the method,
+    the audit and the sources, is at the bottom.</p>
+
+    <h2>Two things do decode</h2>
+
+    <p><strong>The page numbers.</strong> Pages run in order, which hands you the one piece
+    of plaintext in the whole volume. From that sequence you read off the digits and watch
+    the carries happen, and what comes out is base 21. Ours carries at ten. This one carries
+    at twenty one. It counts as a real decode because it predicts: show it a page you have
+    not seen and it tells you the number.</p>
+
+    <p><strong>The layout.</strong> Big strings sit where headings sit. Dense blocks behave
+    like exposition. Short strings hang off specimens like labels. You can tell a caption
+    from a formula from a cross reference at a glance without reading anything. That
+    grammar is real, and it is only the grammar of an encyclopedia page. It tells you about
+    layout. It tells you nothing about Italian.</p>
+
+    <h2>The script is not language, and you can measure that</h2>
+
+    <p>Take the public neural transcription of the script, 44,452 tokens after filtering,
+    and ask how much each character surprises you given the one before it. That measure is
+    conditional entropy, counted in bits, and lower means more predictable. Twenty thousand
+    words of English sits at 3.07 bits. Twenty thousand words of Italian sits at 2.98. The
+    Codex sits at 1.96.</p>
+
+    <figure class="chart">
+      <div class="ck">the Codex against two literary controls</div>
+      <div class="panes">
+
+        <svg viewBox="0 0 460 176" role="img"
+             aria-label="Next-character conditional entropy in bits. Codex OCR 1.96, English Alice 3.07, Italian Dante 2.98. Lower means more predictable.">
+          <text class="ct" x="0" y="12">Next-character entropy</text>
+          <text class="cu" x="0" y="30">bits &middot; lower is more predictable</text>
+          <line x1="128" y1="44" x2="128" y2="156" stroke="rgba(23,19,16,.22)" stroke-width="1"/>
+          <text class="cl sub" x="118" y="65.5" text-anchor="end">Codex</text>
+          <path fill="#6B3FA0" d="M128,52 H274.1 A4,4 0 0 1 278.1,56 V68 A4,4 0 0 1 274.1,72 H128 Z"/>
+          <text class="cv" x="287.1" y="66.5">1.96 bits</text>
+          <text class="cl" x="118" y="103.5" text-anchor="end">Alice</text>
+          <path fill="#8A8177" d="M128,90 H359.1 A4,4 0 0 1 363.1,94 V106 A4,4 0 0 1 359.1,110 H128 Z"/>
+          <text class="cv" x="372.1" y="104.5">3.07 bits</text>
+          <text class="cl" x="118" y="141.5" text-anchor="end">Dante</text>
+          <path fill="#8A8177" d="M128,128 H352.2 A4,4 0 0 1 356.2,132 V144 A4,4 0 0 1 352.2,148 H128 Z"/>
+          <text class="cv" x="365.2" y="142.5">2.98 bits</text>
+        </svg>
+
+        <svg viewBox="0 0 460 176" role="img"
+             aria-label="Adjacent exact repeats as a percentage of tokens. Codex OCR 0.72 percent, English Alice 0.19 percent, Italian Dante 0.05 percent.">
+          <text class="ct" x="0" y="12">Adjacent exact repeats</text>
+          <text class="cu" x="0" y="30">percent of tokens</text>
+          <line x1="128" y1="44" x2="128" y2="156" stroke="rgba(23,19,16,.22)" stroke-width="1"/>
+          <text class="cl sub" x="118" y="65.5" text-anchor="end">Codex</text>
+          <path fill="#6B3FA0" d="M128,52 H365.2 A4,4 0 0 1 369.2,56 V68 A4,4 0 0 1 365.2,72 H128 Z"/>
+          <text class="cv" x="378.2" y="66.5">0.72%</text>
+          <text class="cl" x="118" y="103.5" text-anchor="end">Alice</text>
+          <path fill="#8A8177" d="M128,90 H187.6 A4,4 0 0 1 191.6,94 V106 A4,4 0 0 1 187.6,110 H128 Z"/>
+          <text class="cv" x="204.6" y="104.5">0.19%</text>
+          <text class="cl" x="118" y="141.5" text-anchor="end">Dante</text>
+          <path fill="#8A8177" d="M128,128 H140.7 A4,4 0 0 1 144.7,132 V144 A4,4 0 0 1 140.7,148 H128 Z"/>
+          <text class="cv" x="157.7" y="142.5">0.05%</text>
+        </svg>
+
+      </div>
+      <figcaption class="cn">Codex figures from the public OCR corpus, 44,452 tokens after
+      filtering. Controls are 20,000 words each of Alice in Wonderland and the Divine
+      Comedy.</figcaption>
+    </figure>
+
+    <p>It also repeats itself in a way language does not. Dante puts two identical tokens
+    side by side five times in ten thousand. The Codex does it seventy two times in ten
+    thousand.</p>
+
+    <p>None of that convicts on its own, and the full note says so at length. Transcription
+    error inflates the count of unique shapes, and a plain letter for letter cipher would
+    preserve a lot of these statistics. But a plain cipher would also leave repeated word
+    shapes, short grammatical items turning up everywhere, and a key that somebody would
+    have found by now. Forty five years, no key. What the numbers describe is a hand:
+    ornamental elongation, controlled echo, someone drawing the look of prose very
+    consistently for 359 pages.</p>
+
+    <p>The June 2026 book claiming a complete solution supplies no key, no algorithm you
+    could run on a passage of your own, and no blind test. Its word count does not match the
+    public corpus. The pages it names as a hidden glossary are an index. The full note walks
+    through all four failures.</p>
+
+    <h2>So there is nothing to translate, and the book still says plenty</h2>
+
+    <p>Read what the book does. Eleven chapters promise to put the whole
+    world in order, and every category leaks into the one beside it. Plants become
+    furniture. Limbs grow tools. The famous plate where two lovers become an alligator
+    states the book's law: nothing keeps the identity you assign it.</p>
+
+    <p>The arrows and the numbered specimens do a second job. They make nonsense look
+    official. You believe the page for a second before you have understood anything on it.
+    Every reference book you trust is doing the same.</p>
+
+    <p>And because the captions will not let you in, you fill them yourself. A guess, a
+    mood, a joke, a story about what that creature is for. You are watching your own reading
+    machinery run with nothing fed into it.</p>
+
+    <div class="trans">
+      <div class="tk">the interpretive translation</div>
+      <p>The world will not fit inside our categories. Everything turns into everything
+      else, and the systems that claim to explain it are inventions too. When language stops
+      handing you meaning, you find out how much of it you were making yourself.</p>
+    </div>
+
+    <h2>Why this book eats machines</h2>
+
+    <p>The Codex is fluent form with no semantic ground underneath. That is exactly the
+    input that makes a decipherer, or a language model, produce a confident and entirely
+    invented answer. Ask a model to translate a page and it will. It will name the specimen,
+    describe the process, and hand you a sentence with a subject and a verb in it. Ask again
+    and you get a different sentence, just as smooth. Nothing on the page ever said either
+    one.</p>
+
+    <p>The honest move is to see the bait, refuse it, and translate the experience instead.
+    That is what the section above does.</p>
+
+    <a class="get" target="_blank" rel="noopener" href="codex-seraphinianus-analysis.pdf">
+      <div class="bar"></div>
+      <div class="inner">
+        <div class="no">THE FULL NOTE</div>
+        <h3>CODEX SERAPHINIANUS: ANALYSIS AND TRANSLATION</h3>
+        <p>Everything above, plus the evidence against a cipher in full, the comparative
+        table, the four-point audit of the June 2026 decode claim, the method, and nine
+        sources. It opens full screen. You press next. That is the whole interface.</p>
+        <span class="cta">READ THE PDF</span><span class="pages">46 pages</span>
+      </div>
+    </a>
+
+    <p class="freeline">This note is free. It stays free. Send it to anyone. Keep it whole,
+    keep the name on it
+    (<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>).
+    Not affiliated with Luigi Serafini or Rizzoli.</p>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span class="dim">no signup, no tracking</span>
+    <span class="dim"><a href="../../">back to the shelf</a></span>
+    <span class="dim">CC BY-NC-ND 4.0</span>
+  </div>
+</footer>
+
+</body>
+</html>

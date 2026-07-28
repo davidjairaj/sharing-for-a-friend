@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sharing for a friend :)</title>
-<meta name="description" content="Free books. First on the shelf: Conversations with Claude, a three-volume book about talking to machines, by Suraaj Chandra Jha.">
-<meta property="og:title" content="Sharing for a friend :)">
-<meta property="og:description" content="Conversations with Claude: a free three-volume book about talking to machines. No signup, no tracking, just PDFs.">
+<title>Sharing for a friend :-)</title>
+<meta name="description" content="Free things by Suraaj Chandra Jha. Conversations with Claude, a three-volume book about talking to machines, and a cryptanalysis of the Codex Seraphinianus. No signup, no tracking.">
+<meta property="og:title" content="Sharing for a friend :-)">
+<meta property="og:description" content="Free things by Suraaj Chandra Jha. A three-volume book about talking to machines, and a cryptanalysis of the strangest book in the world.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2314110C'/%3E%3Ctext x='50' y='72' font-size='62' text-anchor='middle' fill='%23FAF6EE' font-family='monospace'%3E:)%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2314110C'/%3E%3Ctext x='50' y='70' font-size='46' text-anchor='middle' fill='%23FAF6EE' font-family='monospace'%3E:-)%3C/text%3E%3C/svg%3E">
 <style>
 @font-face { font-family:'Bricolage'; src:url('fonts/BricolageGrotesque-Bold.ttf'); font-weight:700; font-display:swap; }
 @font-face { font-family:'Bricolage'; src:url('fonts/BricolageGrotesque-Regular.ttf'); font-weight:400; font-display:swap; }
@@ -19,7 +19,8 @@
 
 :root {
   --paper:#FAF6EE; --ink:#171310; --night:#14110C; --dim:#8A8177;
-  --blue:#2244DD; --amber:#B96A00; --red:#D03A21;
+  --body:#4b443c; --rule:rgba(23,19,16,.16);
+  --blue:#2244DD; --amber:#B96A00; --red:#D03A21; --violet:#6B3FA0;
   --blue-b:#7A96FF; --amber-b:#FFB454; --red-b:#FF8A70;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -40,10 +41,10 @@ body {
 }
 h1 {
   font:700 clamp(44px, 8.4vw, 108px)/0.98 'Bricolage', sans-serif;
-  letter-spacing:-0.02em; max-width:14ch;
+  letter-spacing:-0.02em; max-width:15ch;
 }
-.byline { font:italic 400 21px/1.5 'Lora', serif; margin-top:26px; }
-.standfirst { max-width:56ch; margin-top:18px; color:var(--ink); }
+h1 .smile { color:var(--blue); }
+.standfirst { max-width:54ch; margin-top:24px; color:var(--ink); }
 
 .vig {
   background:var(--night); color:var(--paper); border-radius:12px;
@@ -55,51 +56,97 @@ h1 {
 .vig .claude { margin-top:16px; }
 .vig .claude b { color:var(--dim); }
 
-.shelf { padding:64px 0 24px; display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+/* a shelf entry: kicker, title, one line, then the cards */
+.entry { padding-top:26px; margin-top:70px; border-top:2px solid var(--ink); }
+.entry .ekicker {
+  font:700 13px/1 'Plex', monospace; letter-spacing:.26em; text-transform:uppercase;
+  margin-bottom:16px;
+}
+.entry h2 {
+  font:700 clamp(30px, 4.4vw, 54px)/1.02 'Bricolage', sans-serif; letter-spacing:-0.018em;
+  max-width:18ch;
+}
+.entry .eby { font:italic 400 19px/1.5 'Lora', serif; margin-top:14px; color:var(--body); }
+.entry .edesc { max-width:58ch; margin-top:16px; font-size:18px; color:var(--body); }
+.e-books .ekicker { color:var(--blue); }
+.e-notes .ekicker { color:var(--violet); }
+
+.shelf { padding:30px 0 0; display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
 @media (max-width:840px) { .shelf { grid-template-columns:1fr; } }
 
 .vol {
   display:block; text-decoration:none; color:var(--ink);
-  background:var(--paper); border:1.5px solid rgba(23,19,16,.16); border-radius:12px;
+  background:var(--paper); border:1.5px solid var(--rule); border-radius:12px;
   padding:0 0 26px; overflow:hidden; position:relative;
   transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
 .vol:hover, .vol:focus-visible { transform:translateY(-4px); box-shadow:0 14px 34px rgba(23,19,16,.14); }
 .vol:focus-visible { outline:3px solid var(--ink); outline-offset:3px; }
 .vol .bar { height:10px; width:100%; }
-.vol .inner { padding:24px 26px 0; }
+.vol { display:flex; flex-direction:column; }
+.vol .inner { padding:24px 26px 0; display:flex; flex-direction:column; flex:1; }
+.vol .ctarow { margin-top:auto; padding-top:20px; }
 .vol .no { font:700 15px/1 'Plex', monospace; letter-spacing:.2em; margin-bottom:14px; }
-.vol h2 { font:700 clamp(26px, 2.6vw, 34px)/1.05 'Bricolage', sans-serif; letter-spacing:-0.015em; }
-.vol p { font-size:16.5px; line-height:1.55; margin-top:12px; color:#4b443c; }
-.vol .cta { font:700 14px/1 'Plex', monospace; letter-spacing:.12em; margin-top:20px; display:inline-block; }
+.vol h3 { font:700 clamp(26px, 2.6vw, 34px)/1.05 'Bricolage', sans-serif; letter-spacing:-0.015em; }
+.vol p { font-size:16.5px; line-height:1.55; margin-top:12px; color:var(--body); }
+.vol .cta { font:700 14px/1 'Plex', monospace; letter-spacing:.12em; display:inline-block; }
 .vol .pages { font:400 12.5px/1 'Plex', monospace; color:var(--dim); margin-left:10px; }
 .v1 .bar { background:var(--blue); }  .v1 .no, .v1 .cta { color:var(--blue); }
 .v2 .bar { background:var(--amber); } .v2 .no, .v2 .cta { color:var(--amber); }
 .v3 .bar { background:var(--red); }   .v3 .no, .v3 .cta { color:var(--red); }
 .vol:hover .cta::after, .vol:focus-visible .cta::after { content:' ->'; }
 
-.author { padding:44px 0 0; max-width:62ch; }
+/* the wide card: a note, which reads on the web and downloads as a PDF */
+.wide {
+  margin-top:30px; border:1.5px solid var(--rule); border-radius:12px; overflow:hidden;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.wide:hover { transform:translateY(-4px); box-shadow:0 14px 34px rgba(23,19,16,.14); }
+.wide .bar { height:10px; background:var(--violet); }
+.wide .inner { padding:28px 30px 30px; display:grid; grid-template-columns:1.35fr 1fr; gap:34px; }
+@media (max-width:840px) { .wide .inner { grid-template-columns:1fr; gap:22px; } }
+.wide .no { font:700 15px/1 'Plex', monospace; letter-spacing:.2em; color:var(--violet); margin-bottom:14px; }
+.wide h3 { font:700 clamp(26px, 3vw, 38px)/1.04 'Bricolage', sans-serif; letter-spacing:-0.015em; }
+.wide .blurb { font-size:16.5px; line-height:1.58; margin-top:14px; color:var(--body); }
+.wide .facts {
+  font:400 14px/1.85 'Plex', monospace; color:var(--body);
+  border-left:2px solid var(--violet); padding-left:18px; align-self:start;
+}
+.wide .facts b { color:var(--ink); font-weight:700; }
+.wide .facts div + div { margin-top:12px; }
+.wide .facts span { color:var(--body); }
+.links { display:flex; gap:12px; flex-wrap:wrap; margin-top:22px; }
+.btn {
+  text-decoration:none; border-radius:8px; padding:13px 20px;
+  font:700 14px/1 'Plex', monospace; letter-spacing:.1em;
+  transition:transform .14s ease, opacity .14s ease;
+}
+.btn:focus-visible { outline:3px solid var(--ink); outline-offset:3px; }
+.btn:hover { transform:translateY(-2px); }
+.btn.solid { background:var(--violet); color:var(--paper); }
+.btn.solid:hover::after { content:' ->'; }
+.btn.ghost { border:1.5px solid var(--rule); color:var(--ink); }
+.btn.ghost:hover { border-color:var(--violet); }
+
+.author { padding:76px 0 0; max-width:62ch; }
 .author .akicker {
   font:400 13px/1 'Plex', monospace; letter-spacing:.26em; text-transform:uppercase;
   color:var(--dim); margin-bottom:14px;
 }
-.author p { font-size:18px; line-height:1.65; color:#4b443c; }
+.author p { font-size:18px; line-height:1.65; color:var(--body); }
 
 .freeline {
   padding:26px 0 70px; max-width:62ch;
-  font:italic 400 18px/1.65 'Lora', serif; color:#4b443c;
+  font:italic 400 18px/1.65 'Lora', serif; color:var(--body);
 }
 .freeline a { color:var(--ink); }
 
-footer {
-  margin-top:auto; background:var(--night); color:var(--paper);
-}
+footer { margin-top:auto; background:var(--night); color:var(--paper); }
 footer .wrap {
   padding:34px 0; display:flex; justify-content:space-between; align-items:baseline;
   gap:18px; flex-wrap:wrap; font:400 13.5px/1.7 'Plex', monospace;
 }
 footer .dim { color:var(--dim); }
-footer .h { color:var(--paper); letter-spacing:.1em; }
 
 @media (prefers-reduced-motion: no-preference) {
   .reveal { opacity:0; transform:translateY(14px); animation:up .6s ease forwards; }
@@ -113,13 +160,11 @@ footer .h { color:var(--paper); letter-spacing:.1em; }
 
 <div class="wrap">
   <header class="hero">
-    <div class="kicker reveal d2">free books, no catch</div>
-    <h1 class="reveal d2">CONVERSATIONS WITH CLAUDE</h1>
-    <p class="byline reveal d3">by Suraaj Chandra Jha</p>
-    <p class="standfirst reveal d3">Three volumes that take you from your first hello to
-    running your own agents. Written for readers who know nothing, in the spirit of the
-    old hacker files: joyful, precise, honest about the machine. Each opens full screen.
-    You press next. That is the whole interface.</p>
+    <div class="kicker reveal d2">free things, no catch</div>
+    <h1 class="reveal d2">SHARING FOR A FRIEND <span class="smile">:-)</span></h1>
+    <p class="standfirst reveal d3">Free things by Suraaj Chandra Jha. Books, research
+    notes, whatever else gets finished. Nothing here asks for your email. Take what you
+    want and pass it on.</p>
 
     <div class="vig reveal d4" role="img" aria-label="A sample conversation. You ask: is this really free. Claude answers: Free. The license fee is passing it on.">
       <div class="you"><b>YOU:</b> is this really free</div>
@@ -127,57 +172,106 @@ footer .h { color:var(--paper); letter-spacing:.1em; }
     </div>
   </header>
 
-  <main class="shelf">
-    <a class="vol v1 reveal d4" target="_blank" rel="noopener" href="books/conversations-with-claude/conversations-with-claude-vol1.pdf">
-      <div class="bar"></div>
-      <div class="inner">
-        <div class="no">VOLUME ONE</div>
-        <h2>THE INFINITE</h2>
-        <p>First contact. What Claude is, how to talk to it, and why the second prompt
-        beats the first. Assumes nothing.</p>
-        <span class="cta">READ THE PDF</span><span class="pages">93 pages</span>
+  <main>
+
+    <section class="entry e-books reveal d4">
+      <div class="ekicker">books</div>
+      <h2>CONVERSATIONS WITH CLAUDE</h2>
+      <p class="eby">by Suraaj Chandra Jha</p>
+      <p class="edesc">Three volumes that take you from your first hello to running your own
+      agents. Written for readers who know nothing, in the spirit of the old hacker files:
+      joyful, precise, honest about the machine. Each opens full screen. You press next.
+      That is the whole interface.</p>
+
+      <div class="shelf">
+        <a class="vol v1 reveal d4" target="_blank" rel="noopener" href="books/conversations-with-claude/conversations-with-claude-vol1.pdf">
+          <div class="bar"></div>
+          <div class="inner">
+            <div class="no">VOLUME ONE</div>
+            <h3>THE INFINITE</h3>
+            <p>First contact. What Claude is, how to talk to it, and why the second prompt
+            beats the first. Assumes nothing.</p>
+            <div class="ctarow"><span class="cta">READ THE PDF</span><span class="pages">93 pages</span></div>
+          </div>
+        </a>
+        <a class="vol v2 reveal d5" target="_blank" rel="noopener" href="books/conversations-with-claude/conversations-with-claude-vol2.pdf">
+          <div class="bar"></div>
+          <div class="inner">
+            <div class="no">VOLUME TWO</div>
+            <h3>THE CONTEXT WINDOW</h3>
+            <p>The machinery, honestly. Tokens, the window, memory and amnesia, why it
+            makes things up, and prompting as engineering.</p>
+            <div class="ctarow"><span class="cta">READ THE PDF</span><span class="pages">90 pages</span></div>
+          </div>
+        </a>
+        <a class="vol v3 reveal d6" target="_blank" rel="noopener" href="books/conversations-with-claude/conversations-with-claude-vol3.pdf">
+          <div class="bar"></div>
+          <div class="inner">
+            <div class="no">VOLUME THREE</div>
+            <h3>PLEASE UPGRADE YOUR PLAN</h3>
+            <p>Hands on the tools. Claude Code, agents, MCP, your first API call, and the
+            pun in the title, resolved on the final page.</p>
+            <div class="ctarow"><span class="cta">READ THE PDF</span><span class="pages">89 pages</span></div>
+          </div>
+        </a>
       </div>
-    </a>
-    <a class="vol v2 reveal d5" target="_blank" rel="noopener" href="books/conversations-with-claude/conversations-with-claude-vol2.pdf">
-      <div class="bar"></div>
-      <div class="inner">
-        <div class="no">VOLUME TWO</div>
-        <h2>THE CONTEXT WINDOW</h2>
-        <p>The machinery, honestly. Tokens, the window, memory and amnesia, why it
-        makes things up, and prompting as engineering.</p>
-        <span class="cta">READ THE PDF</span><span class="pages">90 pages</span>
+    </section>
+
+    <section class="entry e-notes">
+      <div class="ekicker">research notes</div>
+      <h2>CODEX SERAPHINIANUS</h2>
+      <p class="eby">by Suraaj Chandra Jha</p>
+      <p class="edesc">In 1981 Luigi Serafini published a 359 page encyclopedia of a world
+      that does not exist, captioned throughout in a script nobody has ever read. Forty five
+      years of decoding attempts, and one more announced in June 2026. A cryptanalysis, and
+      the translation that survives it.</p>
+
+      <div class="wide">
+        <div class="bar"></div>
+        <div class="inner">
+          <div>
+            <div class="no">RESEARCH NOTE</div>
+            <h3>A CRYPTANALYSIS, AND THE TRANSLATION THAT SURVIVES IT</h3>
+            <p class="blurb">The script is asemic: the shape of writing with none of the
+            content. The page numbers are base 21 and decode cleanly. The pictures say a
+            great deal. Read the short version on the web, or take the full note with the
+            evidence, the audit and the sources. It opens full screen. You press next.</p>
+            <div class="links">
+              <a class="btn solid" href="notes/codex-seraphinianus/">READ ON THE WEB</a>
+              <a class="btn ghost" target="_blank" rel="noopener" href="notes/codex-seraphinianus/codex-seraphinianus-analysis.pdf">FULL NOTE, PDF</a>
+            </div>
+          </div>
+          <div class="facts">
+            <div><b>Verdict</b><br><span>No reproducible decipherment</span></div>
+            <div><b>What does decode</b><br><span>The pagination, in base 21</span></div>
+            <div><b>Corpus</b><br><span>44,452 tokens, public OCR</span></div>
+            <div><b>Full note</b><br><span>46 pages, 9 sources</span></div>
+          </div>
+        </div>
       </div>
-    </a>
-    <a class="vol v3 reveal d6" target="_blank" rel="noopener" href="books/conversations-with-claude/conversations-with-claude-vol3.pdf">
-      <div class="bar"></div>
-      <div class="inner">
-        <div class="no">VOLUME THREE</div>
-        <h2>PLEASE UPGRADE YOUR PLAN</h2>
-        <p>Hands on the tools. Claude Code, agents, MCP, your first API call, and the
-        pun in the title, resolved on the final page.</p>
-        <span class="cta">READ THE PDF</span><span class="pages">89 pages</span>
-      </div>
-    </a>
+    </section>
+
+    <section class="author">
+      <div class="akicker">the author</div>
+      <p>Suraaj Chandra Jha is a hacker in the old, joyful sense of the word: a person
+      who delights in understanding systems and making them do wonderful things. He
+      wrote the three volumes so that the people he loves would stop asking him what
+      a token is. It worked. Now they ask him about agents. He considers this a
+      successful upgrade. The notes are what happens when a system will not leave him
+      alone.</p>
+    </section>
+
   </main>
 
-  <section class="author reveal d6">
-    <div class="akicker">the author</div>
-    <p>Suraaj Chandra Jha is a hacker in the old, joyful sense of the word: a person
-    who delights in understanding systems and making them do wonderful things. He
-    wrote these three volumes so that the people he loves would stop asking him what
-    a token is. It worked. Now they ask him about agents. He considers this a
-    successful upgrade.</p>
-  </section>
-
-  <p class="freeline reveal d6">These books are free. They stay free. Send them to
-  anyone. Keep them whole, keep the name on them
+  <p class="freeline">Everything here is free. It stays free. Send it to anyone. Keep it
+  whole, keep the name on it
   (<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>).
-  Not affiliated with Anthropic. More free things will appear on this shelf.</p>
+  Not affiliated with Anthropic. More will appear on this shelf.</p>
 </div>
 
 <footer>
   <div class="wrap">
-    <span class="dim">no signup, no tracking, just PDFs</span>
+    <span class="dim">no signup, no tracking</span>
     <span class="dim">CC BY-NC-ND 4.0</span>
   </div>
 </footer>
