@@ -99,7 +99,7 @@
         {
           "kicker": "the honest caveat",
           "headline": "None of this proves it alone.",
-          "body": "No single statistic settles the question, and I am not going to pretend otherwise. Transcription error inflates the count of unique shapes. A plain letter for letter substitution preserves a great deal of sequence statistics, so low entropy on its own convicts nobody.\n\nWhat convicts is the convergence. The author's own account, the structural analysis, and the corpus behavior all point the same way at once."
+          "body": "No single statistic settles the question. Transcription error inflates the count of unique shapes. A plain letter for letter substitution preserves a great deal of sequence statistics, so low entropy on its own convicts nobody.\n\nWhat convicts is the convergence. The author's own account, the structural analysis, and the corpus behavior all point the same way at once."
         },
         {
           "kicker": "the fingerprints",
@@ -112,12 +112,12 @@
     {
       "section": 4,
       "title": "WHAT DOES DECODE",
-      "epigraph": "Two things, and both of them are worth having.",
+      "epigraph": "Two things survive the test.",
       "pages": [
         {
           "kicker": "base 21",
           "headline": "The page numbers are your crack.",
-          "body": "Pages run in order. That hands you the one piece of plaintext in the whole volume. It is exactly what a cryptanalyst needs and almost never gets.\n\nFrom the sequence you read off the digit values and watch the carries happen. What comes out is a positional system in base 21. Ours carries at ten. This one carries at twenty one, so each new position is worth twenty one times the one to its right.",
+          "body": "Pages run in order. That hands you the one piece of plaintext in the whole volume. It is exactly what a cryptanalyst needs.\n\nFrom the sequence you read off the digit values and watch the carries happen. What comes out is a positional system in base 21. Ours carries at ten. This one carries at twenty one, so each new position is worth twenty one times the one to its right.",
           "footnote": "This clears the bar from earlier. It predicts. Show it a page you have not seen and it tells you the number."
         },
         {

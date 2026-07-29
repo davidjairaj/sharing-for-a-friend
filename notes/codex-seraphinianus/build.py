@@ -114,8 +114,8 @@ def idea_page(p, n):
     fs, w, top, hcap = body_tier(words)
     hsize = min(headline_size(p["headline"]), hcap)
     content = f"""
-    <div style="position:absolute; top:{top}px; left:96px; width:1030px;">
-      <h1 style="font-size:{hsize}px; line-height:1.04; margin-bottom:30px; max-width:940px;">{esc(p["headline"])}</h1>
+    <div style="position:absolute; top:{top}px; left:96px; width:1088px;">
+      <h1 style="font-size:{hsize}px; line-height:1.04; margin-bottom:30px; max-width:1088px;">{esc(p["headline"])}</h1>
       <div class="body" style="max-width:{w}px; font-size:{fs}px;">{render_body(p["body"])}</div>
     </div>"""
     return chrome(p.get("kicker"), content, n, p.get("footnote", ""))
