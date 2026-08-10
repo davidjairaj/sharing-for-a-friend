@@ -298,7 +298,13 @@ def build():
     reader = PdfReader(str(OUT_PDF))
     writer = PdfWriter()
     writer.append(reader)
-    writer.add_metadata({"/Title": f"{d['title']}: {d['subtitle']}", "/Author": d["author"]})
+    writer.pdf_header = reader.pdf_header
+    writer.metadata = {
+        "/Title": f"{d['title']}: {d['subtitle']}",
+        "/Author": d["author"],
+        "/Creator": "",
+        "/Producer": "",
+    }
     writer._root_object[NameObject("/PageMode")] = NameObject("/FullScreen")
     with open(OUT_PDF, "wb") as fh:
         writer.write(fh)
