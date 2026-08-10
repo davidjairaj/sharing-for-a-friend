@@ -1,4 +1,4 @@
-# Sharing for a friend :-)
+# Sharing for a friend
 
 A shelf of free things by Suraaj Chandra Jha. Books, research notes, whatever else
 gets finished. No signup, no tracking, just files.
