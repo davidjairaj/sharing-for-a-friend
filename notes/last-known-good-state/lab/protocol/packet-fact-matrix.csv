@@ -1,0 +1,23 @@
+fact_id,category,raw,snapshot,prose,structured,evidence
+F01,verified,1,0,1,1,python3 -m unittest -v in the base tree; 12 tests ran and passed
+F02,verified,1,1,1,1,final visible test run recorded at event E10
+F03,verified,1,0,1,1,publish_receipt implementation and passing receipt tests
+F04,verified,1,0,1,1,visible tests 01 through 05
+F05,verified,1,0,1,1,visible tests 06 through 08
+F06,verified,1,0,1,1,visible tests 10 through 12
+F07,verified,1,1,1,1,visible test 14 passes
+F08,verified,1,1,1,1,visible test 16 passes
+F09,current,1,1,1,1,snapshot Git status and working-tree diff
+F10,current,1,1,1,1,recover_claimed implementation
+F11,current,1,1,1,1,run implementation
+F12,defect,1,1,1,1,test_13_recovers_job_left_after_claim failure and filesystem inspection
+F13,defect,1,1,1,1,test_15_conflicting_receipt_for_claimed_job_quarantines_original failure
+F14,unknown,1,0,1,1,no visible test exercises BEACON_CRASH_AT=after_quarantine
+F15,unknown,1,0,1,1,visible-suite coverage review
+F16,decision,1,0,1,1,public task ordering invariant
+F17,decision,1,0,1,1,public idempotency and conflict invariants
+F18,decision,1,0,1,1,failed experiment at events E06 and E07
+F19,history,1,0,1,1,events E06 through E08
+F20,next,1,0,1,1,final diagnosis at event E11
+F21,next,1,0,1,1,ordered restart plan at event E12
+F22,next,1,0,1,1,public task and final command

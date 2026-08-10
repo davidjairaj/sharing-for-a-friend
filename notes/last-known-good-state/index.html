@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Last Known Good State</title>
+<meta name="description" content="How to resume interrupted work without inventing its history: a recovery protocol, an executable specimen and a falsifiable experiment by Suraaj Chandra Jha.">
+<meta property="og:title" content="The Last Known Good State">
+<meta property="og:description" content="A checked snapshot, its causal frontier, its live edges and the first safe move.">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2314110C'/%3E%3Cpath d='M23 51h42M52 35l16 16-16 16' fill='none' stroke='%23FAF6EE' stroke-width='8' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E">
+<style>
+@font-face { font-family:'Bricolage'; src:url('../../fonts/BricolageGrotesque-Bold.ttf'); font-weight:700; font-display:swap; }
+@font-face { font-family:'Bricolage'; src:url('../../fonts/BricolageGrotesque-Regular.ttf'); font-weight:400; font-display:swap; }
+@font-face { font-family:'Lora'; src:url('../../fonts/Lora-Regular.ttf'); font-weight:400; font-display:swap; }
+@font-face { font-family:'Lora'; src:url('../../fonts/Lora-Italic.ttf'); font-weight:400; font-style:italic; font-display:swap; }
+@font-face { font-family:'Plex'; src:url('../../fonts/IBMPlexMono-Regular.ttf'); font-weight:400; font-display:swap; }
+@font-face { font-family:'Plex'; src:url('../../fonts/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:swap; }
+
+:root {
+  --paper:#FAF6EE; --ink:#171310; --night:#14110C; --dim:#746C63;
+  --body:#4b443c; --green:#1F6B50; --green-b:#8DC9AF;
+  --rule:rgba(23,19,16,.17); --wash:rgba(31,107,80,.075);
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  min-height:100svh; background:var(--paper); color:var(--ink);
+  font:400 19px/1.62 'Lora', Georgia, serif;
+}
+::selection { background:var(--green); color:var(--paper); }
+a { color:inherit; }
+.wrap { width:min(1080px, 92vw); margin:0 auto; }
+.read { max-width:66ch; }
+.back {
+  display:inline-block; margin-top:36px; padding-bottom:3px; color:var(--dim);
+  font:400 13px/1 'Plex', monospace; letter-spacing:.16em; text-decoration:none;
+  text-transform:uppercase; border-bottom:1px solid transparent;
+}
+.back:hover, .back:focus-visible { color:var(--ink); border-bottom-color:var(--green); }
+
+.hero { padding:58px 0 10px; }
+.kicker, .eyebrow {
+  color:var(--green); font:700 13px/1 'Plex', monospace;
+  letter-spacing:.24em; text-transform:uppercase;
+}
+h1 {
+  max-width:12ch; margin-top:22px;
+  font:700 clamp(48px,9.5vw,112px)/.92 'Bricolage', sans-serif;
+  letter-spacing:-.025em;
+}
+.sub {
+  max-width:35ch; margin-top:28px; color:var(--body);
+  font:400 clamp(21px,2.6vw,29px)/1.34 'Lora', serif;
+}
+.byline {
+  max-width:58ch; margin-top:28px; padding-top:16px; border-top:1px solid var(--rule);
+  color:var(--dim); font:400 14px/1.65 'Plex', monospace;
+}
+.byline b { color:var(--ink); }
+
+.verdict {
+  max-width:760px; margin-top:48px; padding:34px 38px 38px;
+  background:var(--night); color:var(--paper); border-left:9px solid var(--green);
+}
+.verdict .eyebrow { color:var(--green-b); }
+.verdict h2 {
+  max-width:16ch; margin-top:18px; font:700 clamp(30px,4vw,47px)/1.03 'Bricolage', sans-serif;
+}
+.verdict p { max-width:55ch; margin-top:20px; color:#dfd9cf; }
+
+main { padding-top:10px; }
+section { margin-top:82px; }
+.section-head { padding-top:20px; border-top:2px solid var(--ink); }
+.section-head h2 {
+  max-width:18ch; margin-top:15px;
+  font:700 clamp(31px,4.3vw,50px)/1.02 'Bricolage', sans-serif;
+  letter-spacing:-.018em;
+}
+.section-head .lede { max-width:62ch; margin-top:22px; color:var(--body); }
+p + p { margin-top:18px; }
+
+.proofs {
+  display:grid; grid-template-columns:repeat(5,1fr); margin-top:38px;
+  border-top:1px solid var(--ink); border-bottom:1px solid var(--ink);
+}
+.proof {
+  min-width:0; padding:20px 18px 22px; border-left:1px solid var(--rule);
+}
+.proof:first-child { border-left:0; }
+.proof b { display:block; font:700 19px/1.05 'Bricolage', sans-serif; }
+.proof span { display:block; margin-top:9px; color:var(--body); font-size:14.5px; line-height:1.45; }
+
+.cut { margin-top:42px; padding:30px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
+.cut-line { display:grid; grid-template-columns:1fr 78px 1fr; align-items:center; }
+.cut-side { min-height:112px; padding:18px 22px; background:var(--wash); }
+.cut-side.right { background:transparent; border:1px solid var(--rule); }
+.cut-side b { display:block; font:700 14px/1 'Plex', monospace; letter-spacing:.11em; text-transform:uppercase; }
+.cut-side span { display:block; margin-top:12px; color:var(--body); font-size:15px; }
+.blade { position:relative; height:148px; }
+.blade::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:2px; background:var(--green); }
+.blade::after { content:'CUT'; position:absolute; left:50%; top:52%; transform:translate(-50%,-50%) rotate(-90deg); padding:5px 8px; background:var(--paper); color:var(--green); font:700 11px/1 'Plex', monospace; letter-spacing:.17em; }
+.cut figcaption { max-width:65ch; margin-top:16px; color:var(--dim); font:400 13px/1.55 'Plex', monospace; }
+
+.memory-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:36px; background:var(--ink); border:1px solid var(--ink); }
+.memory { padding:27px 26px 30px; background:var(--paper); }
+.memory .eyebrow { font-size:11px; }
+.memory h3 { margin-top:14px; font:700 27px/1.05 'Bricolage', sans-serif; }
+.memory p { margin-top:15px; color:var(--body); font-size:16px; line-height:1.56; }
+
+.precedents { margin-top:36px; border-top:1px solid var(--ink); }
+.precedent { display:grid; grid-template-columns:190px 1fr 1fr; gap:26px; padding:23px 0; border-bottom:1px solid var(--rule); }
+.precedent b { font:700 14px/1.35 'Plex', monospace; color:var(--green); }
+.precedent .mechanism { font:700 19px/1.22 'Bricolage', sans-serif; }
+.precedent .lesson { color:var(--body); font-size:15.5px; line-height:1.48; }
+
+.handover { display:grid; grid-template-columns:1fr 1fr; gap:34px; margin-top:36px; }
+.handover article { padding-top:18px; border-top:1px solid var(--ink); }
+.handover h3 { font:700 25px/1.06 'Bricolage', sans-serif; }
+.handover p { margin-top:14px; color:var(--body); font-size:16px; }
+.sequence {
+  margin-top:34px; padding:24px 28px; background:var(--green); color:var(--paper);
+  font:700 clamp(20px,3vw,32px)/1.3 'Bricolage', sans-serif; letter-spacing:.01em;
+}
+
+.specimen { margin-top:36px; border:1px solid var(--ink); }
+.specimen-top { display:grid; grid-template-columns:1fr 1fr; }
+.specimen-top > div { padding:27px 28px; }
+.specimen-top > div + div { border-left:1px solid var(--ink); }
+.specimen h3 { font:700 27px/1.05 'Bricolage', sans-serif; }
+.specimen p { margin-top:14px; color:var(--body); font-size:16px; }
+.score { font:700 clamp(48px,6vw,72px)/1 'Bricolage', sans-serif; color:var(--green); }
+.score small { display:block; margin-top:8px; color:var(--body); font:400 13px/1.45 'Plex', monospace; }
+
+.conditions { width:100%; border-collapse:collapse; font:400 13px/1.45 'Plex', monospace; }
+.conditions caption { padding:20px 28px 10px; text-align:left; color:var(--green); font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+.conditions th, .conditions td { padding:14px 17px; text-align:left; vertical-align:top; border-top:1px solid var(--rule); }
+.conditions th { color:var(--dim); font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
+.conditions tr:last-child td { background:var(--wash); }
+.conditions td:first-child { color:var(--ink); font-weight:700; }
+.bounded { margin-top:18px; color:var(--dim); font:400 13px/1.6 'Plex', monospace; }
+
+.packet { display:grid; grid-template-columns:1fr 1fr; gap:0 32px; margin-top:36px; }
+.field { display:grid; grid-template-columns:42px 1fr; gap:12px; padding:18px 0; border-top:1px solid var(--ink); }
+.field .n { color:var(--green); font:700 13px/1.4 'Plex', monospace; }
+.field h3 { font:700 20px/1.1 'Bricolage', sans-serif; }
+.field p { margin-top:7px; color:var(--body); font:400 13px/1.5 'Plex', monospace; }
+
+.omissions { margin-top:42px; }
+.omissions h3 { font:700 27px/1.05 'Bricolage', sans-serif; }
+.omission-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 34px; margin-top:18px; }
+.omission { display:flex; gap:12px; padding:13px 0; border-top:1px solid var(--rule); font:400 14px/1.45 'Plex', monospace; }
+.omission b { min-width:118px; color:var(--green); }
+
+.downloads { display:grid; grid-template-columns:1.4fr 1fr; gap:1px; margin-top:36px; background:var(--ink); border:1px solid var(--ink); }
+.download { display:block; padding:28px; background:var(--paper); text-decoration:none; }
+.download:hover, .download:focus-visible { background:var(--wash); }
+.download:focus-visible { outline:3px solid var(--green); outline-offset:-3px; }
+.download .eyebrow { font-size:11px; }
+.download h3 { margin-top:14px; font:700 27px/1.05 'Bricolage', sans-serif; }
+.download p { margin-top:12px; color:var(--body); font-size:15.5px; }
+.download .cta { display:inline-block; margin-top:18px; color:var(--green); font:700 13px/1 'Plex', monospace; letter-spacing:.1em; }
+.download:hover .cta::after, .download:focus-visible .cta::after { content:' ->'; }
+
+.sources { margin-top:30px; border-top:1px solid var(--ink); }
+.source { display:grid; grid-template-columns:1fr 1.8fr; gap:28px; padding:17px 0; border-bottom:1px solid var(--rule); }
+.source b { font:700 14px/1.45 'Plex', monospace; }
+.source a { color:var(--body); font-size:15px; text-decoration-color:var(--green); text-underline-offset:3px; }
+.author-note { max-width:65ch; margin:70px 0 0; padding-top:18px; border-top:1px solid var(--rule); }
+.author-note p { margin-top:14px; color:var(--body); font-size:17px; }
+.free { max-width:65ch; padding:34px 0 72px; color:var(--body); font:italic 400 17px/1.65 'Lora', serif; }
+
+footer { background:var(--night); color:var(--paper); }
+footer .wrap { display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; padding:32px 0; color:#aaa39a; font:400 13px/1.6 'Plex', monospace; }
+footer a { color:var(--paper); text-decoration-color:var(--green); }
+
+@media (max-width:820px) {
+  .proofs { grid-template-columns:1fr; }
+  .proof { border-left:0; border-top:1px solid var(--rule); }
+  .proof:first-child { border-top:0; }
+  .memory-grid, .handover, .packet, .omission-grid, .downloads { grid-template-columns:1fr; }
+  .precedent { grid-template-columns:1fr; gap:8px; }
+  .specimen-top { grid-template-columns:1fr; }
+  .specimen-top > div + div { border-left:0; border-top:1px solid var(--ink); }
+  .conditions { font-size:12px; }
+  .conditions th:nth-child(3), .conditions td:nth-child(3) { display:none; }
+}
+@media (max-width:520px) {
+  body { font-size:17px; }
+  .verdict { padding:28px 24px 30px; }
+  .cut-line { grid-template-columns:1fr; }
+  .blade { height:60px; }
+  .blade::before { top:0; bottom:0; }
+  .conditions th, .conditions td { padding:11px 8px; }
+  .conditions th:nth-child(2), .conditions td:nth-child(2) { display:none; }
+  .source { grid-template-columns:1fr; gap:5px; }
+  .field { grid-template-columns:32px 1fr; }
+  .omission { display:block; }
+  .omission b { display:block; margin-bottom:5px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../../">&lt;- the shelf</a>
+
+  <header class="hero">
+    <div class="kicker">research note · 10 august 2026</div>
+    <h1>THE LAST KNOWN GOOD STATE</h1>
+    <p class="sub">How to resume work without inventing its history.</p>
+    <p class="byline">by <b>Suraaj Chandra Jha</b><br>
+    Free to read here, free to download, free to pass on.</p>
+
+    <div class="verdict">
+      <div class="eyebrow">the finding</div>
+      <h2>The past is not the thing you need.</h2>
+      <p>A transcript can preserve every sentence and leave the next operator stranded. A
+      snapshot can preserve every file and omit the reason those files are safe. A summary
+      can sound decisive while quietly mixing observation, intention and guesswork.</p>
+      <p>A useful recovery record is smaller and stricter: a checked snapshot with an exact
+      identity, a causal frontier, live unresolved edges, governing intent, provenance and
+      the first safe move.</p>
+    </div>
+  </header>
+
+  <main>
+    <section id="claim">
+      <div class="section-head">
+        <div class="eyebrow">the title is a test</div>
+        <h2>Each word has to earn its place.</h2>
+        <p class="lede">Remove one word and the phrase becomes comfort rather than recovery.
+        Add one word, <em>resume</em>, and the record must also carry intent, unresolved
+        effects, authority and a checked next action.</p>
+      </div>
+
+      <div class="proofs" role="list" aria-label="Five proof obligations">
+        <div class="proof" role="listitem"><b>Last</b><span>An exact coordinate in history, not “recent”.</span></div>
+        <div class="proof" role="listitem"><b>Known</b><span>Evidence, provenance and confidence attached.</span></div>
+        <div class="proof" role="listitem"><b>Good</b><span>An explicit invariant actually observed.</span></div>
+        <div class="proof" role="listitem"><b>State</b><span>The dependencies needed to continue.</span></div>
+        <div class="proof" role="listitem"><b>Resume</b><span>Live edges, intent and a safe entry point.</span></div>
+      </div>
+
+      <figure class="cut">
+        <div class="cut-line">
+          <div class="cut-side"><b>Known good</b><span>Anchor, observed proof, causes that have taken effect.</span></div>
+          <div class="blade" aria-hidden="true"></div>
+          <div class="cut-side right"><b>Work in flight</b><span>Attempted, pending and uncertain effects, followed by the next safe action.</span></div>
+        </div>
+        <figcaption>The recovery cut is useful only when causes remain on the same side as
+        their effects.</figcaption>
+      </figure>
+    </section>
+
+    <section id="bad-memories">
+      <div class="section-head">
+        <div class="eyebrow">bad memories</div>
+        <h2>More history is not more continuity.</h2>
+        <p class="lede">The incoming operator needs every fact that can change the next safe
+        action. Everything else is evidence to consult, not an interface to replay.</p>
+      </div>
+      <div class="memory-grid">
+        <article class="memory">
+          <div class="eyebrow">the archive</div>
+          <h3>Remembers too much.</h3>
+          <p>Old failures, abandoned ideas and later corrections coexist without a current
+          address. Rich evidence becomes an expensive search problem.</p>
+        </article>
+        <article class="memory">
+          <div class="eyebrow">the snapshot</div>
+          <h3>Remembers too little.</h3>
+          <p>A directory tree says what bytes exist. It does not say which ones passed, what
+          remains outside the tree, or why a constraint must survive.</p>
+        </article>
+        <article class="memory">
+          <div class="eyebrow">the summary</div>
+          <h3>Can lie without lying.</h3>
+          <p>“Deployment pending” may mean requested, acknowledged or applied. Sincere prose
+          fails when observation and intention arrive as the same kind of sentence.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="machines">
+      <div class="section-head">
+        <div class="eyebrow">machines that return</div>
+        <h2>Recovery engineering already knows the shape.</h2>
+        <p class="lede">Different systems preserve different objects, but their failures
+        converge: identity, dependent state, history position and uncertain effects cannot
+        be reconstructed from a plausible pile of files.</p>
+      </div>
+      <div class="precedents">
+        <div class="precedent"><b>Git</b><span class="mechanism">A tree plus a route through history.</span><span class="lesson">A commit joins one directory state to parents, people, time and message. Exact identity is necessary, not sufficient.</span></div>
+        <div class="precedent"><b>SQLite WAL</b><span class="mechanism">The live edge may be another file.</span><span class="lesson">In write-ahead logging mode, separating a database from its WAL can discard committed work or damage the database.</span></div>
+        <div class="precedent"><b>Distributed snapshots</b><span class="mechanism">Processes and channels form one state.</span><span class="lesson">Several locally accurate captures can compose an impossible scene when messages in flight cross the cut.</span></div>
+        <div class="precedent"><b>CRIU and DMTCP</b><span class="mechanism">Files are only the visible organs.</span><span class="lesson">Useful checkpoints reconstruct memory, descriptors, pipes, sockets, signals, credentials and process relationships.</span></div>
+        <div class="precedent"><b>Raft and etcd</b><span class="mechanism">A snapshot needs history coordinates.</span><span class="lesson">Log index, term, cluster identity and revision determine what can safely follow a restored state.</span></div>
+        <div class="precedent"><b>Client retries</b><span class="mechanism">Silence proves nothing.</span><span class="lesson">A service may commit and crash before replying. Durable request identity separates a safe retry from a duplicate effect.</span></div>
+      </div>
+    </section>
+
+    <section id="handover">
+      <div class="section-head">
+        <div class="eyebrow">taking over</div>
+        <h2>The receiver closes the circuit.</h2>
+        <p class="lede">High-consequence handovers do not treat a completed form as a
+        transfer. They make the receiver inspect the world, question the model and assume
+        responsibility explicitly.</p>
+      </div>
+      <div class="handover">
+        <article><h3>Air traffic control</h3><p>The FAA sequence is preview, brief, assume,
+        review. The incoming controller reads live displays first, then receives exceptions,
+        asks questions and takes control explicitly.</p></article>
+        <article><h3>Incident command</h3><p>FEMA places situation status beside objectives,
+        priorities, organisation, resources, facilities, communications and concerns. Facts
+        alone do not carry purpose or authority.</p></article>
+        <article><h3>Industrial shifts</h3><p>The UK Health and Safety Executive recommends
+        outgoing preparation, two-way exchange and incoming cross-check. Written and verbal
+        forms solve different parts of the transfer.</p></article>
+        <article><h3>Interrupted tasks</h3><p>Altmann and Trafton found that keeping a task
+        display visible helped resumption under some longer interruption conditions. Using
+        a written goal or next action is an inference from that bounded result, not something
+        their study tested.</p></article>
+      </div>
+      <div class="sequence">Inspect. Question. Test. Assume.</div>
+    </section>
+
+    <section id="lab">
+      <div class="section-head">
+        <div class="eyebrow">the interrupted spool</div>
+        <h2>A theory of recovery should survive an interruption.</h2>
+        <p class="lede">Beacon Spool is a clean-room, dependency-free Python queue made for
+        this note. It claims JSON jobs, writes deterministic receipts, quarantines malformed
+        or conflicting inputs byte for byte, and restarts after injected process exits.</p>
+      </div>
+      <div class="specimen">
+        <div class="specimen-top">
+          <div>
+            <h3>The frozen worktree</h3>
+            <p>A base commit passes twelve legacy tests. Interrupted recovery work adds four
+            more. Fourteen pass. Two fail around claimed-job recovery and an existing
+            conflicting receipt. The files contain no helpful TODO pointing at the answer.</p>
+          </div>
+          <div>
+            <div class="score">14 / 16<small>visible tests at the interruption point</small></div>
+            <p>The exact same worktree and task go to every operator. Only the continuity
+            packet changes.</p>
+          </div>
+        </div>
+        <table class="conditions">
+          <caption>Four hypothesis-blinded conditions</caption>
+          <thead><tr><th>Condition</th><th>Visible memory</th><th>Live edges</th><th>Transfer</th></tr></thead>
+          <tbody>
+            <tr><td>Raw archive</td><td>Full chronological log</td><td>Buried</td><td>No</td></tr>
+            <tr><td>State only</td><td>Tree, diff, hashes, last test</td><td>Absent</td><td>No</td></tr>
+            <tr><td>Conventional prose</td><td>Matched facts in narrative</td><td>Present</td><td>Implicit</td></tr>
+            <tr><td>Structured packet</td><td>Matched facts by state class</td><td>Present</td><td>Explicit</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="bounded">No operator runs are reported here. The protocol does not smuggle
+      in a conclusion. A scored study must
+      freeze the contract and verifier, withhold sealed scenarios from operators, then
+      release them with the results. The reference evaluator scores legacy compatibility,
+      crash recovery, duplicate safety, byte-preserving quarantine, determinism and
+      filesystem boundaries. A high total cannot hide a failed safety group. No result from
+      one synthetic spool can establish a universal minimum. The evaluator executes
+      candidate Python; its temporary roots isolate tests, not hostile code.</p>
+    </section>
+
+    <section id="packet">
+      <div class="section-head">
+        <div class="eyebrow">the recovery cut</div>
+        <h2>Eight fields. One restartable claim.</h2>
+        <p class="lede">This is a proposed sufficient capsule. Its usefulness is operational:
+        each field rules out a distinct way of resuming the wrong work, at the wrong point,
+        with inherited confidence.</p>
+      </div>
+      <div class="packet">
+        <div class="field"><span class="n">01</span><div><h3>Identity and authority</h3><p>Exact work, anchor, scope, owner.</p></div></div>
+        <div class="field"><span class="n">02</span><div><h3>Intent</h3><p>Objective, success, constraints, decisions.</p></div></div>
+        <div class="field"><span class="n">03</span><div><h3>Material snapshot</h3><p>Artefacts, data, environment, relationships.</p></div></div>
+        <div class="field"><span class="n">04</span><div><h3>Causal frontier</h3><p>Committed, applied, attempted, observed.</p></div></div>
+        <div class="field"><span class="n">05</span><div><h3>Open edges</h3><p>In-flight effects, blockers, risks, unknowns.</p></div></div>
+        <div class="field"><span class="n">06</span><div><h3>Provenance</h3><p>Sources, actors, time, assumptions, confidence.</p></div></div>
+        <div class="field"><span class="n">07</span><div><h3>Restart cue</h3><p>Prerequisites and exact first useful action.</p></div></div>
+        <div class="field"><span class="n">08</span><div><h3>Verification</h3><p>Invariants to rerun and receiver cross-check.</p></div></div>
+      </div>
+
+      <div class="omissions">
+        <h3>Remove a field. Watch a failure appear.</h3>
+        <div class="omission-grid">
+          <div class="omission"><b>No identity</b><span>Resume the wrong instance.</span></div>
+          <div class="omission"><b>No intent</b><span>Continue correctly toward the wrong result.</span></div>
+          <div class="omission"><b>No snapshot</b><span>Possess a story with nothing runnable.</span></div>
+          <div class="omission"><b>No frontier</b><span>Repeat or omit completed work.</span></div>
+          <div class="omission"><b>No open edges</b><span>Lose or duplicate live effects.</span></div>
+          <div class="omission"><b>No provenance</b><span>Fill gaps with inherited confidence.</span></div>
+          <div class="omission"><b>No restart cue</b><span>Own the state but cannot enter it.</span></div>
+          <div class="omission"><b>No verification</b><span>Mistake a plausible state for a good one.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="downloads">
+      <div class="section-head">
+        <div class="eyebrow">take it apart</div>
+        <h2>The evidence and the mechanism are included.</h2>
+        <p class="lede">The full note carries the derivation, limits and source list. The
+        laboratory carries the public task, frozen event ledger, four continuity packets,
+        fact-coverage matrix and deterministic verifier.</p>
+      </div>
+      <div class="downloads">
+        <a class="download" target="_blank" rel="noopener" href="last-known-good-state.pdf">
+          <div class="eyebrow">the full note · 49 pages</div>
+          <h3>Read the PDF</h3>
+          <p>Landscape pages, one idea at a time. Opens full screen.</p>
+          <span class="cta">READ THE NOTE</span>
+        </a>
+        <a class="download" href="lab/">
+          <div class="eyebrow">the executable specimen</div>
+          <h3>Inspect the lab</h3>
+          <p>Fixture, packets, protocol and one-command evaluator.</p>
+          <span class="cta">OPEN THE README</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="section-head">
+        <div class="eyebrow">sources</div>
+        <h2>Go and check.</h2>
+        <p class="lede">The common pattern is a synthesis, not a standard claimed by any one
+        source. Sources were reviewed on 10 August 2026.</p>
+      </div>
+      <div class="sources">
+        <div class="source"><b>Git project</b><a href="https://git-scm.com/docs/user-manual">Git user manual: object database and commit objects</a></div>
+        <div class="source"><b>SQLite project</b><a href="https://sqlite.org/wal.html">Write-Ahead Logging: persistent state and checkpoints</a></div>
+        <div class="source"><b>K. Mani Chandy and Leslie Lamport</b><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/12/Determining-Global-States-of-a-Distributed-System.pdf">Distributed Snapshots: Determining Global States of Distributed Systems (1985)</a></div>
+        <div class="source"><b>Jason Ansel, Kapil Arya and Gene Cooperman</b><a href="https://dmtcp.sourceforge.io/papers/dmtcp.pdf">DMTCP: Transparent Checkpointing for Cluster Computations and the Desktop (2009)</a></div>
+        <div class="source"><b>CRIU project</b><a href="https://criu.org/Checkpoint/Restore">Checkpoint/Restore design</a></div>
+        <div class="source"><b>Diego Ongaro and John Ousterhout</b><a href="https://raft.github.io/raft.pdf">In Search of an Understandable Consensus Algorithm, extended version</a></div>
+        <div class="source"><b>etcd project</b><a href="https://etcd.io/docs/v3.7/op-guide/recovery/">Disaster recovery: integrity, identity and revision bumps</a></div>
+        <div class="source"><b>U.S. Fire Administration and FEMA</b><a href="https://www.usfa.fema.gov/downloads/pdf/publications/field_operations_guide.pdf">Field Operations Guide: establishment and transfer of command</a></div>
+        <div class="source"><b>U.S. Federal Aviation Administration</b><a href="https://www.faa.gov/air_traffic/publications/atpubs/atc_html/appendix_a.html">Transfer of Position Responsibility</a></div>
+        <div class="source"><b>UK Health and Safety Executive</b><a href="https://www.hse.gov.uk/humanfactors/topics/shift-handover.htm">Shift handover guidance</a></div>
+        <div class="source"><b>Erik M. Altmann and J. Gregory Trafton</b><a href="https://gregtrafton.com/papers/task_interruption.pdf">Task Interruption: Resumption Lag and the Role of Cues</a></div>
+        <div class="source"><b>World Wide Web Consortium</b><a href="https://www.w3.org/TR/prov-dm/">PROV-DM: The PROV Data Model</a></div>
+      </div>
+    </section>
+
+    <aside class="author-note">
+      <div class="eyebrow">the author</div>
+      <p>Suraaj Chandra Jha is a hacker in the old, joyful sense of the word: interested
+      in systems, evidence, and the small anomaly that gives the whole game away.</p>
+    </aside>
+  </main>
+
+  <p class="free">This note is free. It stays free. Send it to anyone. Keep it whole, keep
+  the name on it (<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>). The software laboratory is a separate
+  artefact, published without a software licence; those Creative Commons terms
+  do not apply to its code.</p>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>no signup, no tracking</span>
+    <span><a href="../../">back to the shelf</a></span>
+    <span>CC BY-NC-ND 4.0</span>
+  </div>
+</footer>
+</body>
+</html>

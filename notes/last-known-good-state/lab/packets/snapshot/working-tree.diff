@@ -1,0 +1,152 @@
+diff --git a/beacon_spool.py b/beacon_spool.py
+--- a/beacon_spool.py
++++ b/beacon_spool.py
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-"""Beacon Spool legacy implementation."""
++"""Beacon Spool interrupted claim-and-recover implementation."""
+ 
+ from __future__ import annotations
+ 
+@@ -180,7 +180,20 @@
+             pass
+ 
+ 
+-def process_inbox_job(path: Path, paths: dict[str, Path], crash_at: str | None) -> None:
++def claim(path: Path, claimed_directory: Path, crash_at: str | None) -> Path:
++    destination = claimed_directory / path.name
++    if os.path.lexists(destination):
++        raise BoundaryError("claim destination already exists")
++    try:
++        path.rename(destination)
++    except OSError as exc:
++        raise BoundaryError("cannot claim job") from exc
++    if crash_at == "after_claim":
++        os._exit(86)
++    return destination
++
++
++def process_claimed_job(path: Path, paths: dict[str, Path], crash_at: str | None) -> None:
+     raw = regular_bytes(path)
+     try:
+         job = parse_job(raw)
+@@ -197,10 +210,27 @@
+         quarantine(path, paths["quarantine"], crash_at)
+ 
+ 
++def recover_claimed(paths: dict[str, Path]) -> None:
++    """Reconcile jobs left in claimed by an interrupted process."""
++    for path in candidate_files(paths["claimed"]):
++        raw = regular_bytes(path)
++        try:
++            job = parse_job(raw)
++        except MalformedJob:
++            quarantine(path, paths["quarantine"], None)
++            continue
++        receipt_path = paths["receipts"] / f"{job['id']}.json"
++        if os.path.lexists(receipt_path):
++            regular_bytes(receipt_path)
++            path.unlink()
++
++
+ def run(root_argument: str, crash_at: str | None) -> int:
+     paths = validate_layout(root_argument)
+-    for path in candidate_files(paths["inbox"]):
+-        process_inbox_job(path, paths, crash_at)
++    for inbox_path in candidate_files(paths["inbox"]):
++        claimed_path = claim(inbox_path, paths["claimed"], crash_at)
++        process_claimed_job(claimed_path, paths, crash_at)
++    recover_claimed(paths)
+     return 0
+ 
+ 
+diff --git a/test_beacon_spool.py b/test_beacon_spool.py
+--- a/test_beacon_spool.py
++++ b/test_beacon_spool.py
+@@ -11,6 +11,7 @@
+ 
+ 
+ DIRECTORIES = ("inbox", "claimed", "receipts", "quarantine")
++CANDIDATE_TIMEOUT_SECONDS = 10
+ 
+ 
+ def canonical(value: object) -> bytes:
+@@ -64,7 +65,13 @@
+             command.append(str(root or self.root))
+         else:
+             command.extend(arguments)
+-        return subprocess.run(command, env=environment, capture_output=True, check=False)
++        return subprocess.run(
++            command,
++            env=environment,
++            capture_output=True,
++            check=False,
++            timeout=CANDIDATE_TIMEOUT_SECONDS,
++        )
+ 
+     def test_01_writes_exact_canonical_receipt(self) -> None:
+         job = {"payload": {"reading": 7, "unit": "lux"}, "id": "alpha"}
+@@ -209,7 +216,61 @@
+         self.assertEqual(result.returncode, 2)
+         self.assertEqual(target.read_bytes(), raw)
+         self.assertEqual(list((self.root / "receipts").iterdir()), [])
+-
+-
++    def test_13_recovers_job_left_after_claim(self) -> None:
++        job = {"id": "stranded", "payload": {"attempt": 1}}
++        (self.root / "inbox" / "stranded.json").write_bytes(canonical(job))
++
++        crashed = self.run_spool(crash_at="after_claim")
++        resumed = self.run_spool()
++
++        self.assertEqual(crashed.returncode, 86)
++        self.assertEqual(resumed.returncode, 0)
++        receipt_path = self.root / "receipts" / "stranded.json"
++        self.assertTrue(receipt_path.exists(), "resumed run did not process the claimed job")
++        self.assertEqual(receipt_path.read_bytes(), receipt_for(job))
++        self.assertFalse((self.root / "claimed" / "stranded.json").exists())
++
++    def test_14_recovers_job_left_after_receipt(self) -> None:
++        job = {"id": "committed", "payload": ["durable", "enough"]}
++        (self.root / "inbox" / "committed.json").write_bytes(canonical(job))
++
++        crashed = self.run_spool(crash_at="after_receipt")
++        self.assertEqual(crashed.returncode, 86)
++        self.assertTrue((self.root / "claimed" / "committed.json").exists())
++        before = (self.root / "receipts" / "committed.json").read_bytes()
++        resumed = self.run_spool()
++
++        self.assertEqual(resumed.returncode, 0)
++        self.assertEqual(before, receipt_for(job))
++        self.assertEqual((self.root / "receipts" / "committed.json").read_bytes(), before)
++        self.assertFalse((self.root / "claimed" / "committed.json").exists())
++
++    def test_15_conflicting_receipt_for_claimed_job_quarantines_original(self) -> None:
++        raw = b'{ "id" : "claimed-conflict", "payload" : "new" }\n'
++        conflicting = b'{"id":"claimed-conflict","status":"old"}\n'
++        (self.root / "claimed" / "original.json").write_bytes(raw)
++        (self.root / "receipts" / "claimed-conflict.json").write_bytes(conflicting)
++
++        result = self.run_spool()
++
++        self.assertEqual(result.returncode, 0)
++        self.assertEqual((self.root / "receipts" / "claimed-conflict.json").read_bytes(), conflicting)
++        quarantine_path = self.root / "quarantine" / "original.json"
++        self.assertTrue(quarantine_path.exists(), "conflicting claimed job was not quarantined")
++        self.assertEqual(quarantine_path.read_bytes(), raw)
++        self.assertFalse((self.root / "claimed" / "original.json").exists())
++
++    def test_16_matching_receipt_completes_a_previously_claimed_job(self) -> None:
++        job = {"id": "matched", "payload": {"completed": True}}
++        receipt = receipt_for(job)
++        (self.root / "claimed" / "matched.json").write_bytes(canonical(job))
++        (self.root / "receipts" / "matched.json").write_bytes(receipt)
++
++        result = self.run_spool()
++
++        self.assertEqual(result.returncode, 0)
++        self.assertFalse((self.root / "claimed" / "matched.json").exists())
++        self.assertEqual((self.root / "receipts" / "matched.json").read_bytes(), receipt)
++        self.assertEqual(list((self.root / "quarantine").iterdir()), [])
+ if __name__ == "__main__":
+     unittest.main()

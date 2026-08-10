@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A reproducible continuity experiment for the Last Known Good State.">
+  <title>The Interrupted Spool — Last Known Good State</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f4f0e7;
+      --ink: #171714;
+      --quiet: #656159;
+      --line: #b9b2a5;
+      --signal: #b73524;
+      --measure: 72rem;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 0.96rem + 0.18vw, 1.14rem);
+      line-height: 1.58;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-color: var(--signal);
+      text-decoration-thickness: 0.11em;
+      text-underline-offset: 0.18em;
+    }
+
+    a:hover { color: var(--signal); }
+
+    a:focus-visible {
+      outline: 3px solid var(--signal);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: 0;
+      left: 1rem;
+      padding: 0.55rem 0.75rem;
+      background: var(--ink);
+      color: var(--paper);
+      transform: translateY(-120%);
+      z-index: 2;
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    header,
+    main,
+    footer {
+      width: min(calc(100% - 2rem), var(--measure));
+      margin-inline: auto;
+    }
+
+    header {
+      min-height: 74vh;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(14rem, 1fr);
+      gap: clamp(2rem, 7vw, 7rem);
+      align-content: center;
+      padding-block: 5rem;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .kicker,
+    h2,
+    h3,
+    code,
+    .state dt,
+    .index-number {
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    }
+
+    .kicker {
+      margin: 0 0 1.4rem;
+      color: var(--signal);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 10ch;
+      margin: 0;
+      font-size: clamp(3.6rem, 10vw, 8.8rem);
+      font-weight: 400;
+      letter-spacing: -0.065em;
+      line-height: 0.84;
+    }
+
+    .lede {
+      align-self: end;
+      margin: 0;
+      max-width: 28rem;
+      font-size: clamp(1.15rem, 1rem + 0.65vw, 1.65rem);
+      line-height: 1.36;
+    }
+
+    section {
+      display: grid;
+      grid-template-columns: minmax(10rem, 1fr) minmax(0, 3fr);
+      gap: clamp(2rem, 7vw, 7rem);
+      padding-block: clamp(3.5rem, 8vw, 7rem);
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      margin: 0 0 0.4rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.035em;
+    }
+
+    p { margin-block: 0 1.2rem; }
+
+    h1,
+    h2,
+    h3,
+    p,
+    a,
+    code { overflow-wrap: anywhere; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem 1.5rem;
+      margin-top: 1.8rem;
+    }
+
+    .actions a { font-weight: 700; }
+
+    .state {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin: 2.2rem 0 0;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .state div {
+      min-height: 8rem;
+      padding: 1.15rem;
+      background: var(--paper);
+    }
+
+    .state dt {
+      color: var(--quiet);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .state dd {
+      margin: 0.35rem 0 0;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      line-height: 1;
+    }
+
+    .conditions,
+    .resource-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .conditions li,
+    .resource-list li {
+      display: grid;
+      grid-template-columns: 3rem minmax(0, 1fr);
+      gap: 1rem;
+      padding-block: 1.35rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .conditions li:last-child,
+    .resource-list li:last-child { border-bottom: 1px solid var(--line); }
+
+    .conditions p,
+    .resource-list p { margin: 0; }
+
+    .index-number {
+      color: var(--signal);
+      font-size: 0.8rem;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      padding: 1rem 1.2rem;
+      border-left: 0.3rem solid var(--signal);
+      background: #e8e2d7;
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .note {
+      max-width: 47rem;
+      color: var(--quiet);
+      font-style: italic;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      padding-block: 2.5rem 4rem;
+      color: var(--quiet);
+      font-size: 0.86rem;
+    }
+
+    footer p { margin: 0; }
+
+    @media (max-width: 46rem) {
+      header,
+      section {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        min-height: auto;
+        gap: 3rem;
+      }
+
+      h1 { font-size: clamp(3.5rem, 20vw, 6.5rem); }
+
+      .state { grid-template-columns: 1fr; }
+
+      .state div { min-height: auto; }
+
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the experiment</a>
+
+  <header>
+    <div>
+      <p class="kicker">Last Known Good State / laboratory</p>
+      <h1>The interrupted spool</h1>
+    </div>
+    <p class="lede">Four continuity packets face the same broken worktree. The instrument tests what helps a fresh operator resume without inventing the past.</p>
+  </header>
+
+  <main id="main">
+    <section aria-labelledby="start-heading">
+      <h2 id="start-heading">The fixture</h2>
+      <div>
+        <p><code>beacon-spool</code> is a small Python job processor. A prior operator began adding interruption recovery, stopped with two diagnosed defects, and left an uncommitted working tree. Every study condition receives the same task, source and visible tests. Only its continuity packet changes.</p>
+        <p>This is a controlled process-exit experiment, not a claim about power-loss durability or distributed queues.</p>
+        <p>The full laboratory is public, including the reference implementation and every evaluator scenario. This copy is a reference instrument, not a sealed evaluator. A future scored study needs a newly frozen copy whose evaluator and reference implementation remain inaccessible to its operators.</p>
+        <div class="actions">
+          <a href="TASK.md">Read the public task</a>
+          <a href="README.md">Run the laboratory</a>
+        </div>
+        <dl class="state" aria-label="Frozen fixture state">
+          <div>
+            <dt>Base</dt>
+            <dd>12/12</dd>
+          </div>
+          <div>
+            <dt>Interrupted</dt>
+            <dd>14/16</dd>
+          </div>
+          <div>
+            <dt>Third-party Python packages</dt>
+            <dd>0</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section aria-labelledby="conditions-heading">
+      <h2 id="conditions-heading">Four conditions</h2>
+      <div>
+        <ol class="conditions">
+          <li>
+            <span class="index-number">01</span>
+            <div>
+              <h3><a href="packets/raw/SESSION.log">Raw archive</a></h3>
+              <p>The complete synthetic prior-session chronology, including an approach that was later rejected.</p>
+            </div>
+          </li>
+          <li>
+            <span class="index-number">02</span>
+            <div>
+              <h3>State-only snapshot</h3>
+              <p><a href="packets/snapshot/git-status.txt">Status</a>, <a href="packets/snapshot/working-tree.diff">diff</a>, <a href="packets/snapshot/sha256.txt">hashes</a>, <a href="packets/snapshot/tree.txt">tree</a>, and <a href="packets/snapshot/final-test.txt">final test output</a>, without a narrative.</p>
+            </div>
+          </li>
+          <li>
+            <span class="index-number">03</span>
+            <div>
+              <h3><a href="packets/prose/HANDOFF.md">Conventional prose</a></h3>
+              <p>A continuous handoff containing the same ledger facts as the structured pair.</p>
+            </div>
+          </li>
+          <li>
+            <span class="index-number">04</span>
+            <div>
+              <h3>Structured handoff</h3>
+              <p><a href="packets/structured/LKGS.md">LKGS</a> separates verified and current state; <a href="packets/structured/REVISIT.md">REVISIT</a> carries defects, unknowns and the restart order.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section aria-labelledby="protocol-heading">
+      <h2 id="protocol-heading">Protocol</h2>
+      <div>
+        <p>All four packets are generated from one canonical ledger. The included matrix makes their fact coverage inspectable. The prose and structured conditions contain identical facts and remain within five per cent of one another in word count.</p>
+        <p>The instrument is not ready for pilots or scored runs. The owner must first freeze and digest a filled run manifest, externally anchor a commitment binding it to the lab lock, and freeze a manifest-bound study provisioner. The checked-in setup command accepts explicit demonstrations only.</p>
+        <ul class="resource-list">
+          <li><span class="index-number">A</span><p><a href="protocol/PROTOCOL.md">Run protocol and decision rules</a></p></li>
+          <li><span class="index-number">B</span><p><a href="protocol/event-ledger.json">Canonical event ledger</a></p></li>
+          <li><span class="index-number">C</span><p><a href="protocol/packet-fact-matrix.csv">Packet fact-coverage matrix</a></p></li>
+          <li><span class="index-number">D</span><p><a href="protocol/study-lock.json">Study lock and SHA-256 manifest</a></p></li>
+          <li><span class="index-number">E</span><p><a href="protocol/study-lock.sha256">Detached lock digest</a></p></li>
+          <li><span class="index-number">F</span><p><a href="protocol/RUN_MANIFEST.template.json">Required run-manifest template</a></p></li>
+          <li><span class="index-number">G</span><p><a href="protocol/RUN_MANIFEST.anchor.template.json">External anchor-receipt template</a></p></li>
+          <li><span class="index-number">H</span><p><a href="protocol/generate.py">Deterministic packet generator</a></p></li>
+          <li><span class="index-number">I</span><p><a href="scripts/semantic_gate.py">One-command semantic gate</a></p></li>
+        </ul>
+        <p class="note">No filled run manifest, detached manifest digest, external anchor receipt, operator runs or scored results are present. The synthetic ledger cutoff is not an external anchor.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="verify-heading">
+      <h2 id="verify-heading">Verification</h2>
+      <div>
+        <p>The evaluator ignores participant test edits, overlays only the submitted implementation, and runs visible plus published reference scenarios in fresh roots. It reports one human summary and one canonical JSON record. Candidate invocations receive ten seconds; the visible runner has a separate 210-second infrastructure fuse.</p>
+        <p><strong>Execution warning:</strong> the evaluator runs candidate Python. Temporary roots isolate test data; they are not a security sandbox. Run untrusted submissions only in a disposable OS-level sandbox or container with no secrets or network and with independent CPU, memory, process and time limits.</p>
+        <pre><code>./evaluator/verify.sh submissions/run-017</code></pre>
+        <div class="actions">
+          <a href="evaluator/verify.py">Inspect the evaluator</a>
+          <a href="evaluator/hidden_tests/scenarios.py">Inspect the reference scenarios</a>
+          <a href="scripts/setup_trial.py">Inspect trial setup</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Python ≥3.10 · Git ≥2.28 · POSIX host and filesystem</p>
+    <p>No software licence is granted for the lab code; Creative Commons terms for surrounding prose do not apply. <a href="README.md">Read the laboratory notes</a>.</p>
+  </footer>
+</body>
+</html>

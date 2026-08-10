@@ -1,0 +1,334 @@
+{
+  "series": "SHARING FOR A FRIEND",
+  "kind": "RESEARCH NOTE",
+  "date": "10 AUGUST 2026",
+  "title": "THE LAST KNOWN GOOD STATE",
+  "cover_lines": ["THE LAST", "KNOWN GOOD", "STATE"],
+  "subtitle": "How to resume work without inventing its history",
+  "author": "Suraaj Chandra Jha",
+  "map_headline": "Seven recoveries.",
+  "free_page": "This note is free. It always will be. Send it to anyone: mail it, post it, print it and leave it on a train. Just keep it whole and keep my name on it. That is the entire licence fee. The long version is CC BY-NC-ND 4.0.",
+  "how_to_read": "Read it full screen. Press next. One idea per page, in order, in about twenty minutes. Or use the shorter semantic version on the web.\n\nThe reference laboratory sits beside the note. Its evaluator executes candidate Python: temporary roots isolate tests, not hostile code. A scored study must keep its frozen evaluator and reference implementation inaccessible to operators until results are locked.",
+  "disclaimer": "This is a recovery design and a bounded synthetic experiment, not a universal standard. The laboratory injects process exits. It does not claim to model power loss, storage durability, distributed consensus or a safety-critical handover.\n\nThe recovery packet is a synthesis from public sources and one clean-room fixture. Domain procedures still govern medicine, aviation, emergency response and other consequential work.",
+  "sections": [
+    {
+      "section": 1,
+      "title": "THE FINDING",
+      "epigraph": "The useful past is the part that lets the future begin.",
+      "pages": [
+        {
+          "kicker": "the verdict",
+          "headline": "The past is not the thing you need.",
+          "body": "A transcript can preserve every sentence and still leave the next operator stranded. A snapshot can preserve every file and still omit the reason those files are safe. A summary can sound decisive while quietly mixing observation, intention and guesswork.\n\nWhat interrupted work needs is smaller and stricter: an exact place to stand, evidence that it held, every live edge beyond it, the intent governing the work, and the first safe move.",
+          "footnote": "This note calls that object a recovery cut. It is a synthesis, not an existing standard."
+        },
+        {
+          "kicker": "four proof obligations",
+          "headline": "Each word has to earn its place.",
+          "body": "Last means an exact coordinate in history, not 'recent'. Known means provenance: who or what observed it, when, and with what confidence. Good means an explicit invariant actually passed. State means the artefacts, configuration, environment, relationships and open channels needed to continue.\n\nRemove any one word and the phrase becomes comfort rather than recovery. Add one more word - resume - and the handoff must also carry intent, unresolved effects, authority and a checked next action."
+        },
+        {
+          "type": "cut",
+          "kicker": "the recovery cut",
+          "headline": "State before. Work in flight. A safe next move.",
+          "body": "The cut is useful only when causes remain on the same side as their effects."
+        }
+      ]
+    },
+    {
+      "section": 2,
+      "title": "BAD MEMORIES",
+      "epigraph": "More history can make the present harder to find.",
+      "pages": [
+        {
+          "kicker": "the archive",
+          "headline": "The transcript remembers too much.",
+          "body": "A raw history is rich in evidence and poor in priority. Old tests sit beside new failures. Abandoned ideas remain grammatically alive. A correction can be forty pages after the error it replaces.\n\nNothing has vanished, but the current state has no address. The incoming operator must replay the whole conversation, reconstruct the causal order and decide which claims survived. An archive is excellent evidence. It is an expensive interface."
+        },
+        {
+          "kicker": "the image",
+          "headline": "The snapshot remembers too little.",
+          "body": "A directory tree tells you what bytes exist. It does not tell you which ones passed, what remains outside the tree, what effect may already have occurred elsewhere, or why an odd constraint must not be simplified away.\n\nGit understands this distinction. A tree is a directory state. A commit adds parents, people, time and an explanation. Even then, uncommitted files, runtime state and external systems remain outside the object.",
+          "footnote": "Git user manual: a commit links a tree state to how it arrived and why."
+        },
+        {
+          "kicker": "the story",
+          "headline": "The summary can lie without lying.",
+          "body": "A handoff can be sincere, concise and wrong in exactly the dangerous places. 'The tests pass' may mean some tests passed yesterday. 'Deployment pending' may mean the request was sent and the acknowledgement was lost. 'Use the latest version' may point at a moving branch.\n\nThe problem is not prose. It is type confusion. Observation, inference, decision, intention and unknown all arrive as ordinary sentences unless the record keeps their status visible."
+        },
+        {
+          "kicker": "the surplus",
+          "headline": "More memory is not more continuity.",
+          "body": "The operator does not need every prior thought. The operator needs every fact that can change the next safe action, plus enough provenance to challenge it.\n\nA checklist helps selection but cannot finish the transfer. High-risk handover procedures pair written state with preview, questions, explicit assumption of responsibility and a review afterwards. The receiver has to build and test a model of the situation. A completed form cannot do that on their behalf.",
+          "footnote": "FAA position relief and UK HSE shift-handover procedures both require incoming verification."
+        }
+      ]
+    },
+    {
+      "section": 3,
+      "title": "MACHINES THAT RETURN",
+      "epigraph": "Recovery engineering has been arguing with incomplete state for decades.",
+      "pages": [
+        {
+          "kicker": "version control",
+          "headline": "Git gives the state an address.",
+          "body": "A Git object is named from its contents. Change the contents and the name changes. A commit joins one directory tree to its parent history, author and committer metadata, time and message.\n\nThat gives recovery two things a folder named FINAL cannot: an immutable anchor and a route back through history. It still does not capture the running environment or work outside Git. Exact identity is necessary. It is not sufficient.",
+          "footnote": "Official Git user manual, object database and commit-object sections."
+        },
+        {
+          "kicker": "databases",
+          "headline": "The database may be in two files.",
+          "body": "In SQLite write-ahead logging mode, committed changes can still live in the WAL rather than the main database file. SQLite explicitly warns that the WAL is part of the persistent state. Separate the two and committed transactions may disappear or the database may be damaged.\n\nThe visible artefact was not the whole state. The live edge beside it was carrying newer truth.",
+          "footnote": "SQLite, Write-Ahead Logging, section 4."
+        },
+        {
+          "kicker": "distributed systems",
+          "headline": "Several true pictures can make one impossible scene.",
+          "body": "Chandy and Lamport considered processes that cannot freeze the world or share one clock. Each process can record its own state, but a global snapshot must also account for messages in transit. Capture the components at inconsistent moments and a conserved token can appear twice or vanish.\n\nThe lesson travels well as an analogy: local notes can each be accurate and still compose a history in which an effect appears before its cause.",
+          "footnote": "Chandy and Lamport, Distributed Snapshots, 1985. The organisational analogy is mine."
+        },
+        {
+          "kicker": "process checkpoints",
+          "headline": "The files are only the visible organs.",
+          "body": "A running process also holds memory, file descriptors, pipes, sockets, timers, credentials, shared resources and relationships to other processes. Checkpoint systems such as CRIU and DMTCP must reconstruct that dependency surface before execution can continue.\n\nA project handoff has the same failure shape. Source files can be perfect while a missing environment, permission, service, dataset or ownership boundary makes the saved state inert.",
+          "footnote": "CRIU checkpoint/restore design; Ansel, Arya and Cooperman, DMTCP."
+        },
+        {
+          "kicker": "history coordinates",
+          "headline": "A snapshot needs to say where it belongs.",
+          "body": "A Raft snapshot records the current state, but also the index and term of the last log entry it includes and the cluster configuration at that point. The following log entries only make sense relative to those coordinates.\n\nRestoration has an identity problem too. Current etcd guidance verifies the integrity hash when a snapshot contains one, creates a new logical cluster identity, and can pair a revision bump with marking that revision compacted so watchers terminate and stale caches rebuild.",
+          "footnote": "Ongaro and Ousterhout, Raft sections 7 and 8; etcd disaster-recovery guide, reviewed 10 August 2026."
+        },
+        {
+          "kicker": "uncertain effects",
+          "headline": "Silence after a command proves nothing.",
+          "body": "A service can commit a request and crash before returning the answer. The caller sees a timeout and retries. Without a durable request identity, the work may happen twice. Raft's client protocol records a serial number and the associated response so a retry can be recognised.\n\nHuman handoffs need the same distinction: requested, acknowledged, observed and verified are different states. 'Pending' collapses them precisely when recovery needs them apart.",
+          "footnote": "Raft extended paper, client interaction."
+        }
+      ]
+    },
+    {
+      "section": 4,
+      "title": "TAKING OVER",
+      "epigraph": "A handoff transfers a model and a responsibility.",
+      "pages": [
+        {
+          "kicker": "air traffic control",
+          "headline": "Preview. Brief. Assume. Review.",
+          "body": "The FAA's position-relief procedure does not treat a checklist as a parcel passed across a desk. The incoming controller first reads the status displays and observes the live position. The outgoing controller briefs exceptions. The incoming controller asks until the picture is understood, explicitly assumes responsibility, and the outgoing controller stays long enough to catch omissions.\n\nThe sequence has a reason. The record, the world and the receiver's model are three different things."
+        },
+        {
+          "kicker": "incident command",
+          "headline": "Status is only one line of the briefing.",
+          "body": "FEMA's field guide puts situation status beside objectives, priorities, organisation, assigned and incoming resources, facilities, communications and prognosis or concerns. It also records the transfer for later retrieval.\n\nAn organisation cannot resume from facts alone. It needs the purpose those facts serve, the resources that can act, the authority that moved, and the forward risks the previous operator could see.",
+          "footnote": "U.S. Fire Administration/FEMA Field Operations Guide, transfer of command."
+        },
+        {
+          "kicker": "the protocol",
+          "headline": "The receiver closes the circuit.",
+          "body": "The UK Health and Safety Executive describes effective handover as outgoing preparation, two-way exchange and incoming cross-check. Written and verbal forms are complementary because a stored record preserves detail while dialogue exposes ambiguity.\n\nFor asynchronous work, the dialogue may happen through questions, tests and inspection rather than face to face. The invariant is the same: transfer is not complete when the sender stops writing. It is complete when the receiver can verify and take control."
+        },
+        {
+          "kicker": "the restart cue",
+          "headline": "Name the first safe action.",
+          "body": "In a constrained laboratory task, Altmann and Trafton measured a 3.8 second first action after interruption against 1.9 seconds between uninterrupted actions. Keeping the task display visible helped under some longer interruption conditions. The result is bounded, not a law of all work.\n\nThe packet design makes an inference from that result: preserving the suspended goal, current locus and a proposed next action may reduce search at resumption. The study did not test written handoffs. The first command should still be checkable: run this test, inspect this output, then decide.",
+          "footnote": "Altmann and Trafton, Task Interruption: Resumption Lag and the Role of Cues."
+        }
+      ]
+    },
+    {
+      "section": 5,
+      "title": "THE INTERRUPTED SPOOL",
+      "epigraph": "A theory of recovery should survive an actual interruption.",
+      "pages": [
+        {
+          "kicker": "the specimen",
+          "headline": "A tiny queue with real failure modes.",
+          "body": "Beacon Spool is a dependency-free Python job queue made only for this note. It claims JSON jobs, writes deterministic receipts, quarantines malformed or conflicting inputs byte for byte, and restarts after injected process exits.\n\nThe contract is narrow and inspectable: no valid job lost, no receipt overwritten, no duplicate effect after retry, no mutation outside the supplied root. It models process interruption, not power-loss durability."
+        },
+        {
+          "kicker": "the interruption",
+          "headline": "Work stops at fourteen of sixteen.",
+          "body": "The frozen worktree begins from a base with twelve passing legacy tests. Uncommitted recovery work adds four more. Fourteen pass. Two failures remain: a claimed job can lose a race with a new inbox job carrying the same ID, and an existing conflicting receipt is trusted without comparing its canonical content.\n\nA destructive startup shortcut had already been tried and reverted because it deleted recoverable work. The code contains no helpful TODO pointing at the answer."
+        },
+        {
+          "type": "conditions",
+          "kicker": "four conditions",
+          "headline": "The worktree stays still. The memory changes."
+        },
+        {
+          "kicker": "the fair comparison",
+          "headline": "Prose and structure carry the same facts.",
+          "body": "The conventional handoff and the structured packet are derived from one frozen event ledger. They carry the same facts and stay within five percent of one another in word count. The comparison asks whether explicit boundaries between verified state, current state, decisions, risks and next action change resumption.\n\nThe archive and snapshot are deliberately ecological comparisons. They differ in both selection and form, so they cannot isolate typography from information.",
+          "footnote": "The repository publishes the ledger, packet-fact matrix and file hashes."
+        },
+        {
+          "kicker": "the verifier",
+          "headline": "The preferred answer does not write the exam.",
+          "body": "The evaluator overlays only the operator's permitted source changes onto a clean task, discards modified participant tests, and runs sealed scenarios in fresh temporary roots. It scores legacy compatibility, crash recovery, duplicate safety, malformed-input preservation, determinism and filesystem boundaries.\n\nFor a scored study, the coordinator freezes the contract and verifier, withholds sealed scenarios from operators, then releases them with the results. The repository includes a reference verifier and study lock. One command reproduces a score. A high total cannot hide a failed safety group.",
+          "layout": "compact"
+        },
+        {
+          "kicker": "what the result can mean",
+          "headline": "Sufficient here is not minimal everywhere.",
+          "body": "If structured packets outperform archives and snapshots in this fixture, we have evidence that a compact recovery record can help under these conditions. If matched prose performs the same, semantic compression mattered and headings did not. If state-only performs the same, the handoff may be unnecessary. If all four tie, the task is too easy or the packet irrelevant.\n\nNo result from one synthetic spool discovers a universal minimum. That claim would require multiple tasks, operators and a field-ablation study that removes one packet element at a time."
+        }
+      ]
+    },
+    {
+      "section": 6,
+      "title": "THE RECOVERY CUT",
+      "epigraph": "A compact sufficient state, with every uncertainty left visible.",
+      "pages": [
+        {
+          "kicker": "last",
+          "headline": "Give the past an exact address.",
+          "body": "Name the work instance and immutable anchor: commit, content hash, snapshot ID, database revision, incident number or other coordinate that cannot drift after the handoff. Add the time and governing configuration when they change interpretation.\n\nFriendly names are for navigation. Recovery needs identity. 'Main', 'production', 'final' and 'latest' are moving signs nailed to moving vehicles."
+        },
+        {
+          "kicker": "known",
+          "headline": "Keep evidence attached to the claim.",
+          "body": "Record what was observed, by whom or what, when, from which source and under which assumptions. Separate fact, inference, decision, intention and unknown. A hash proves identity, not correctness. A provenance graph records derivation, not truth.\n\nKnown does not mean certain. It means the future operator can inspect the chain instead of inheriting confidence as a substitute for evidence.",
+          "footnote": "W3C PROV-DM represents entities, activities, agents, derivation and time; it does not make claims true."
+        },
+        {
+          "kicker": "good",
+          "headline": "Say what passed, not what feels finished.",
+          "body": "Good is a predicate. Name the invariant, command, input, expected result, observed result and time. Preserve the failure boundary too: which tests were not run, which checks failed, which environment differed, which result is now stale.\n\nA clean command exit proves only that the command exited cleanly. The acceptance signal must correspond to the thing the work is supposed to do."
+        },
+        {
+          "kicker": "state",
+          "headline": "Save the dependency surface.",
+          "body": "List the material artefacts and the relationships that make them runnable: configuration, environment, data, services, permissions, resources, versions, open communications and external effects. Mark what lies outside the snapshot.\n\nDo not collect machinery for its own sake. The boundary is operational: include anything whose absence, mismatch or reuse can change the next safe action."
+        },
+        {
+          "kicker": "resume",
+          "headline": "Carry the live edges across.",
+          "body": "State what is committed, applied, attempted, acknowledged, observed and still uncertain. Preserve rejected routes when repeating them would be costly or dangerous. Name the current objective, controlling decisions, owner, authority boundary, blockers and exact first useful action.\n\nThen make the receiver cross-check the packet against the world. Recovery is a protocol. The document is one of its messages."
+        },
+        {
+          "type": "packet",
+          "kicker": "the packet",
+          "headline": "Eight fields. One restartable claim."
+        },
+        {
+          "type": "omissions",
+          "kicker": "the omission test",
+          "headline": "Remove a field. Watch a failure appear."
+        }
+      ]
+    },
+    {
+      "section": 7,
+      "title": "METHOD AND SOURCES",
+      "epigraph": "Everything necessary to challenge the packet and rerun the specimen.",
+      "pages": [
+        {
+          "kicker": "method",
+          "headline": "How this was done.",
+          "body": "The research compared primary papers, official technical documentation and operating procedures across version control, databases, checkpoint/restart, distributed systems, incident command, air traffic control, industrial shift handover, task interruption and provenance.\n\nThe synthesis was then expressed as a clean-room software specimen and a protocol for a scored comparison. No operator runs are reported here. The public contract, event ledger, four continuity packets, file hashes and reference evaluator sit beside this note. The preferred packet remains a hypothesis."
+        },
+        {
+          "kicker": "limits",
+          "headline": "What this does not establish.",
+          "body": "The technical sources describe different systems under different assumptions. Their common shape supports a design inference, not a theorem about organisations. The human-factors evidence is task and domain specific. The synthetic spool is small, machine operators are not people, process exits are not storage failures, and packet format remains partly confounded with content.\n\nThe eight fields are a proposed sufficient capsule. Minimum remains an open empirical question. Sources were reviewed on 10 August 2026."
+        },
+        {
+          "type": "sources",
+          "kicker": "sources",
+          "headline": "Go and check."
+        }
+      ]
+    }
+  ],
+  "conditions": [
+    ["Raw archive", "Full chronological log", "High", "Buried", "No"],
+    ["State only", "Tree, diff, hashes, last test", "Low", "Absent", "No"],
+    ["Conventional prose", "Matched facts in narrative", "Medium", "Present", "Implicit"],
+    ["Structured packet", "Matched facts by state class", "Low", "Present", "Explicit"]
+  ],
+  "packet": [
+    ["1", "Identity and authority", "Exact work, anchor, scope, owner"],
+    ["2", "Intent", "Objective, success, constraints, decisions"],
+    ["3", "Material snapshot", "Artefacts, data, environment, relationships"],
+    ["4", "Causal frontier", "Committed, applied, attempted, observed"],
+    ["5", "Open edges", "In-flight effects, blockers, risks, unknowns"],
+    ["6", "Provenance", "Sources, actors, time, assumptions, confidence"],
+    ["7", "Restart cue", "Prerequisites and exact first useful action"],
+    ["8", "Verification", "Invariants to rerun and receiver cross-check"]
+  ],
+  "omissions": [
+    ["No identity", "Resume the wrong instance"],
+    ["No intent", "Continue correctly toward the wrong result"],
+    ["No snapshot", "Possess a story with nothing runnable"],
+    ["No frontier", "Repeat or omit completed work"],
+    ["No open edges", "Lose or duplicate live effects"],
+    ["No provenance", "Fill gaps with inherited confidence"],
+    ["No restart cue", "Own the state but cannot enter it"],
+    ["No verification", "Mistake a plausible state for a good one"]
+  ],
+  "sources": [
+    [
+      "Git project",
+      "Git user manual: object database and commit objects",
+      "git-scm.com/docs/user-manual"
+    ],
+    [
+      "SQLite project",
+      "Write-Ahead Logging: persistent state and checkpoints",
+      "sqlite.org/wal.html"
+    ],
+    [
+      "K. Mani Chandy and Leslie Lamport",
+      "Distributed Snapshots: Determining Global States of Distributed Systems (1985)",
+      "www.microsoft.com/en-us/research/wp-content/uploads/2016/12/Determining-Global-States-of-a-Distributed-System.pdf"
+    ],
+    [
+      "Jason Ansel, Kapil Arya and Gene Cooperman",
+      "DMTCP: Transparent Checkpointing for Cluster Computations and the Desktop (2009)",
+      "dmtcp.sourceforge.io/papers/dmtcp.pdf"
+    ],
+    [
+      "CRIU project",
+      "Checkpoint/Restore design",
+      "criu.org/Checkpoint/Restore"
+    ],
+    [
+      "Diego Ongaro and John Ousterhout",
+      "In Search of an Understandable Consensus Algorithm, extended version",
+      "raft.github.io/raft.pdf"
+    ],
+    [
+      "etcd project",
+      "Disaster recovery: integrity, identity and revision bumps",
+      "etcd.io/docs/v3.7/op-guide/recovery"
+    ],
+    [
+      "U.S. Fire Administration and FEMA",
+      "Field Operations Guide: establishment and transfer of command",
+      "usfa.fema.gov/downloads/pdf/publications/field_operations_guide.pdf"
+    ],
+    [
+      "U.S. Federal Aviation Administration",
+      "Standard Operating Practice for Transfer of Position Responsibility",
+      "faa.gov/air_traffic/publications/atpubs/atc_html/appendix_a.html"
+    ],
+    [
+      "UK Health and Safety Executive",
+      "Shift handover guidance",
+      "hse.gov.uk/humanfactors/topics/shift-handover.htm"
+    ],
+    [
+      "Erik M. Altmann and J. Gregory Trafton",
+      "Task Interruption: Resumption Lag and the Role of Cues",
+      "gregtrafton.com/papers/task_interruption.pdf"
+    ],
+    [
+      "World Wide Web Consortium",
+      "PROV-DM: The PROV Data Model, W3C Recommendation",
+      "w3.org/TR/prov-dm"
+    ]
+  ],
+  "about": "Suraaj Chandra Jha is a hacker in the old, joyful sense of the word: interested in systems, evidence, and the small anomaly that gives the whole game away.\n\nThis note began because machines keep waking without knowing what they were doing. People and organisations do it too.",
+  "share": "If this note gives you a cleaner way to leave work for the next operator, send it to one person. That is the licence fee.\n\nIt lives at davidjairaj.github.io/sharing-for-a-friend, free, always, with the laboratory and everything else on the shelf."
+}

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sharing for a friend</title>
-<meta name="description" content="Free things by Suraaj Chandra Jha. Conversations with Claude, a three-volume book about talking to machines, and a cryptanalysis of the Codex Seraphinianus. No signup, no tracking.">
+<meta name="description" content="Free things by Suraaj Chandra Jha. The Last Known Good State, a cryptanalysis of the Codex Seraphinianus, and Conversations with Claude. No signup, no tracking.">
 <meta property="og:title" content="Sharing for a friend">
-<meta property="og:description" content="Free things by Suraaj Chandra Jha. A three-volume book about talking to machines, and a cryptanalysis of the strangest book in the world.">
+<meta property="og:description" content="Free books and research notes about machines, strange texts and the recovery of interrupted work.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2314110C'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='%23FAF6EE' font-family='monospace'%3ES%3C/text%3E%3C/svg%3E">
 <style>
@@ -18,9 +18,9 @@
 @font-face { font-family:'Plex'; src:url('fonts/IBMPlexMono-Bold.ttf'); font-weight:700; font-display:swap; }
 
 :root {
-  --paper:#FAF6EE; --ink:#171310; --night:#14110C; --dim:#8A8177;
+  --paper:#FAF6EE; --ink:#171310; --night:#14110C; --dim:#746C63; --dim-dark:#AAA39A;
   --body:#4b443c; --rule:rgba(23,19,16,.16);
-  --blue:#2244DD; --amber:#B96A00; --red:#D03A21; --violet:#6B3FA0;
+  --blue:#2244DD; --amber:#9A5700; --red:#D03A21; --violet:#6B3FA0; --green:#1F6B50;
   --blue-b:#7A96FF; --amber-b:#FFB454; --red-b:#FF8A70;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -52,8 +52,8 @@ h1 {
 }
 .vig b { display:block; font-weight:700; letter-spacing:.08em; }
 .vig .you b { color:var(--blue-b); }
-.vig .claude { margin-top:16px; }
-.vig .claude b { color:var(--dim); }
+.vig .ai { margin-top:16px; }
+.vig .ai b { color:var(--dim-dark); }
 
 /* a shelf entry: kicker, title, one line, then the cards */
 .entry { padding-top:26px; margin-top:70px; border-top:2px solid var(--ink); }
@@ -69,6 +69,7 @@ h1 {
 .entry .edesc { max-width:58ch; margin-top:16px; font-size:18px; color:var(--body); }
 .e-books .ekicker { color:var(--blue); }
 .e-notes .ekicker { color:var(--violet); }
+.e-lkgs .ekicker { color:var(--green); }
 
 .shelf { padding:30px 0 0; display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
 @media (max-width:840px) { .shelf { grid-template-columns:1fr; } }
@@ -126,6 +127,11 @@ h1 {
 .btn.solid:hover::after { content:' ->'; }
 .btn.ghost { border:1.5px solid var(--rule); color:var(--ink); }
 .btn.ghost:hover { border-color:var(--violet); }
+.wide.green .bar { background:var(--green); }
+.wide.green .no { color:var(--green); }
+.wide.green .facts { border-left-color:var(--green); }
+.wide.green .btn.solid { background:var(--green); }
+.wide.green .btn.ghost:hover { border-color:var(--green); }
 
 .author { padding:76px 0 0; max-width:62ch; }
 .author .akicker {
@@ -145,7 +151,7 @@ footer .wrap {
   padding:34px 0; display:flex; justify-content:space-between; align-items:baseline;
   gap:18px; flex-wrap:wrap; font:400 13.5px/1.7 'Plex', monospace;
 }
-footer .dim { color:var(--dim); }
+footer .dim { color:var(--dim-dark); }
 
 @media (prefers-reduced-motion: no-preference) {
   .reveal { opacity:0; transform:translateY(14px); animation:up .6s ease forwards; }
@@ -165,13 +171,80 @@ footer .dim { color:var(--dim); }
     notes, whatever else gets finished. Nothing here asks for your email. Take what you
     want and pass it on.</p>
 
-    <div class="vig reveal d4" role="img" aria-label="A sample conversation. You ask: is this really free. Claude answers: Free. The license fee is passing it on.">
+    <div class="vig reveal d4" role="img" aria-label="A sample conversation. You ask: is this really free. AI answers: Free. The license fee is passing it on.">
       <div class="you"><b>YOU:</b> is this really free</div>
-      <div class="claude"><b>CLAUDE:</b> Free. The license fee is passing it on.</div>
+      <div class="ai"><b>AI:</b> Free. The license fee is passing it on.</div>
     </div>
   </header>
 
   <main>
+
+    <section class="entry e-lkgs reveal d4">
+      <div class="ekicker">research note</div>
+      <h2>THE LAST KNOWN GOOD STATE</h2>
+      <p class="eby">by Suraaj Chandra Jha</p>
+      <p class="edesc">A transcript can preserve every sentence and leave the next
+      operator stranded. A snapshot can preserve every file and omit the reason those
+      files are safe. What does interrupted work actually need in order to resume?</p>
+
+      <div class="wide green">
+        <div class="bar"></div>
+        <div class="inner">
+          <div>
+            <div class="no">RESEARCH NOTE</div>
+            <h3>HOW TO RESUME WORK WITHOUT INVENTING ITS HISTORY</h3>
+            <p class="blurb">A recovery record is not a summary. It is a checked snapshot
+            with an exact identity, a causal frontier, live unresolved edges, governing
+            intent, provenance and the first safe move. The note derives an eight-field
+            packet, then puts it beside an executable interrupted job queue.</p>
+            <div class="links">
+              <a class="btn solid" href="notes/last-known-good-state/">READ ON THE WEB</a>
+              <a class="btn ghost" target="_blank" rel="noopener" href="notes/last-known-good-state/last-known-good-state.pdf">FULL NOTE, PDF</a>
+            </div>
+          </div>
+          <div class="facts">
+            <div><b>Recovery cut</b><br><span>Known good state beside live edges</span></div>
+            <div><b>Proposed packet</b><br><span>8 operational fields</span></div>
+            <div><b>Specimen</b><br><span>Dependency-free Python spool</span></div>
+            <div><b>Full note</b><br><span>49 pages, 12 sources</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="entry e-notes">
+      <div class="ekicker">research notes</div>
+      <h2>CODEX SERAPHINIANUS</h2>
+      <p class="eby">by Suraaj Chandra Jha</p>
+      <p class="edesc">In 1981 Luigi Serafini published a 359 page encyclopedia of a world
+      that does not exist, captioned throughout in a script nobody has ever read. Forty five
+      years of decoding attempts, and one more announced in June 2026. A cryptanalysis, and
+      the translation that survives it.</p>
+
+      <div class="wide">
+        <div class="bar"></div>
+        <div class="inner">
+          <div>
+            <div class="no">RESEARCH NOTE</div>
+            <h3>A CRYPTANALYSIS, AND THE TRANSLATION THAT SURVIVES IT</h3>
+            <p class="blurb">The script is asemic: the shape of writing with none of the
+            content. The page numbers are base 21 and decode cleanly. The pictures say a
+            great deal. Read the short version on the web, or take the full note with the
+            evidence, the audit and the sources. It opens full screen. You press next.</p>
+            <div class="links">
+              <a class="btn solid" href="notes/codex-seraphinianus/">READ ON THE WEB</a>
+              <a class="btn ghost" target="_blank" rel="noopener" href="notes/codex-seraphinianus/codex-seraphinianus-analysis.pdf">FULL NOTE, PDF</a>
+            </div>
+          </div>
+          <div class="facts">
+            <div><b>Verdict</b><br><span>No reproducible decipherment</span></div>
+            <div><b>What does decode</b><br><span>The pagination, in base 21</span></div>
+            <div><b>Corpus</b><br><span>44,452 tokens, public OCR</span></div>
+            <div><b>Full note</b><br><span>46 pages, 9 sources</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="entry e-books reveal d4">
       <div class="ekicker">books</div>
@@ -216,40 +289,6 @@ footer .dim { color:var(--dim); }
       </div>
     </section>
 
-    <section class="entry e-notes">
-      <div class="ekicker">research notes</div>
-      <h2>CODEX SERAPHINIANUS</h2>
-      <p class="eby">by Suraaj Chandra Jha</p>
-      <p class="edesc">In 1981 Luigi Serafini published a 359 page encyclopedia of a world
-      that does not exist, captioned throughout in a script nobody has ever read. Forty five
-      years of decoding attempts, and one more announced in June 2026. A cryptanalysis, and
-      the translation that survives it.</p>
-
-      <div class="wide">
-        <div class="bar"></div>
-        <div class="inner">
-          <div>
-            <div class="no">RESEARCH NOTE</div>
-            <h3>A CRYPTANALYSIS, AND THE TRANSLATION THAT SURVIVES IT</h3>
-            <p class="blurb">The script is asemic: the shape of writing with none of the
-            content. The page numbers are base 21 and decode cleanly. The pictures say a
-            great deal. Read the short version on the web, or take the full note with the
-            evidence, the audit and the sources. It opens full screen. You press next.</p>
-            <div class="links">
-              <a class="btn solid" href="notes/codex-seraphinianus/">READ ON THE WEB</a>
-              <a class="btn ghost" target="_blank" rel="noopener" href="notes/codex-seraphinianus/codex-seraphinianus-analysis.pdf">FULL NOTE, PDF</a>
-            </div>
-          </div>
-          <div class="facts">
-            <div><b>Verdict</b><br><span>No reproducible decipherment</span></div>
-            <div><b>What does decode</b><br><span>The pagination, in base 21</span></div>
-            <div><b>Corpus</b><br><span>44,452 tokens, public OCR</span></div>
-            <div><b>Full note</b><br><span>46 pages, 9 sources</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="author">
       <div class="akicker">the author</div>
       <p>Suraaj Chandra Jha is a hacker in the old, joyful sense of the word: interested
@@ -260,10 +299,12 @@ footer .dim { color:var(--dim); }
 
   </main>
 
-  <p class="freeline">Everything here is free. It stays free. Send it to anyone. Keep it
-  whole, keep the name on it
+  <p class="freeline">The books and notes here are free. They stay free. Send them to
+  anyone. Keep each work whole, keep the name on it
   (<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>).
-  Not affiliated with Anthropic. More will appear on this shelf.</p>
+  The executable laboratory is a separate artefact, published without a software
+  licence; the notes' Creative Commons terms do not apply to its code. Not
+  affiliated with Anthropic. More will appear on this shelf.</p>
 </div>
 
 <footer>

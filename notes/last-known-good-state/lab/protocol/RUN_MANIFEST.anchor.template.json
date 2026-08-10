@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "template": true,
+  "study_id": "interrupted-spool-v1",
+  "commitment_scheme": "interrupted-spool-anchor-v1",
+  "study_lock_sha256": "REQUIRED",
+  "run_manifest_sha256": "REQUIRED",
+  "combined_commitment_sha256": "REQUIRED",
+  "external_anchor": {
+    "method": "REQUIRED",
+    "authority": "REQUIRED",
+    "identifier_or_uri": "REQUIRED",
+    "timestamp_utc": "REQUIRED"
+  }
+}

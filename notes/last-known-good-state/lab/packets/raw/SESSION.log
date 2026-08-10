@@ -1,0 +1,97 @@
+BEACON SPOOL PRIOR SESSION ARCHIVE
+Synthetic clock; chronological capture; obsolete states are retained.
+
+[2001-01-01T09:00:00Z] E01 inspection
+Read the public task and inspected the legacy implementation, visible suite, and clean Git state.
+Recorded facts:
+  F01: The deterministic base commit passes all twelve legacy tests, covering canonical receipts, conflict preservation, malformed input, ordering, usage errors, and symlink rejection.
+  F16: Recovery must finish all claimed candidates in lexicographic order before the program scans any new inbox candidate.
+  F17: A claimed job may be removed only after exact receipt-byte equality; absence requires processing, and inequality requires byte-preserving quarantine.
+
+[2001-01-01T09:04:00Z] E02 test
+Ran the base suite once; all twelve legacy tests passed.
+$ python3 -m unittest -v
+Ran 12 tests; OK
+Recorded facts:
+  F01: The deterministic base commit passes all twelve legacy tests, covering canonical receipts, conflict preservation, malformed input, ordering, usage errors, and symlink rejection.
+
+[2001-01-01T09:12:00Z] E03 implementation
+Added atomic claiming, receipt crash injection, and a first recover_claimed function while retaining atomic no-overwrite receipt publication.
+Recorded facts:
+  F03: Atomic receipt publication is implemented with a fully written and synced temporary file followed by no-overwrite hard-link publication.
+  F09: The frozen snapshot records uncommitted modifications that add claim-and-recover code and four recovery tests over the base files.
+
+[2001-01-01T09:19:00Z] E04 test
+The legacy suite remained green after the claim path was introduced.
+$ python3 -m unittest -v BeaconSpoolLegacyTests
+Ran 12 tests; OK
+Recorded facts:
+  F03: Atomic receipt publication is implemented with a fully written and synced temporary file followed by no-overwrite hard-link publication.
+  F04: Canonical parsing, semantic hashing, deterministic receipt bytes, lexicographic inbox order, and idempotent handling of an identical inbox receipt all pass visible tests.
+  F05: Malformed and unsafe-ID inbox jobs reach quarantine without byte changes, while non-JSON entries remain untouched.
+  F06: Missing layout elements, symlinked operational directories, and symlinked JSON candidates return boundary status 2 without touching their linked targets.
+
+[2001-01-01T09:27:00Z] E05 test-addition
+Added four visible recovery tests for after-claim, after-receipt, claimed conflict, and matching claimed receipt behaviour.
+Recorded facts:
+  F07: A crash injected after receipt publication exits 86, leaves both claim and receipt, and the next normal run removes the matching claim without changing receipt bytes.
+  F08: A directly seeded claimed job with an exactly matching receipt is completed idempotently and is not quarantined.
+  F09: The frozen snapshot records uncommitted modifications that add claim-and-recover code and four recovery tests over the base files.
+
+[2001-01-01T09:33:00Z] E06 failed-approach
+Tried deleting every claimed file during startup as cleanup for interrupted runs.
+Recorded facts:
+  F18: Do not restore the discarded startup cleanup that unlinked every claimed file, because an after-claim exit has no receipt and that cleanup loses the only job copy.
+  F19: The delete-all-claimed startup approach was tried, demonstrated to violate no-loss recovery, and reverted before the frozen worktree was captured.
+
+[2001-01-01T09:36:00Z] E07 test
+The after-claim scenario proved that blanket cleanup destroys the only copy of an uncommitted job.
+$ python3 -m unittest -v test_beacon_spool.BeaconSpoolLegacyTests.test_13_recovers_job_left_after_claim
+FAILED: receipt absent and claimed job deleted
+Recorded facts:
+  F18: Do not restore the discarded startup cleanup that unlinked every claimed file, because an after-claim exit has no receipt and that cleanup loses the only job copy.
+  F19: The delete-all-claimed startup approach was tried, demonstrated to violate no-loss recovery, and reverted before the frozen worktree was captured.
+
+[2001-01-01T09:41:00Z] E08 revert
+Reverted blanket claimed-file deletion and replaced it with receipt-aware-looking recovery logic.
+Recorded facts:
+  F10: Current recover_claimed deletes a valid claimed job whenever any regular receipt exists, without comparing that receipt with the canonical expected bytes.
+  F19: The delete-all-claimed startup approach was tried, demonstrated to violate no-loss recovery, and reverted before the frozen worktree was captured.
+
+[2001-01-01T09:48:00Z] E09 inspection
+Reviewed remaining coverage and recorded crash-after-quarantine, quarantine suffix collision, and receipt symlink cases as unverified.
+Recorded facts:
+  F14: Crash recovery after quarantine is implemented but remains outside the visible suite, so it is unverified at the interruption point.
+  F15: No visible test covers multiple occupied quarantine suffixes or a receipt path that is itself a symbolic link.
+
+[2001-01-01T09:54:00Z] E10 test
+Ran the complete frozen visible suite: fourteen of sixteen tests passed, with only tests 13 and 15 failing.
+$ python3 -m unittest -v
+Ran 16 tests; FAILED (failures=2); passing=14
+Recorded facts:
+  F02: The frozen interrupted worktree runs sixteen visible tests and passes exactly fourteen; only tests 13 and 15 fail.
+  F07: A crash injected after receipt publication exits 86, leaves both claim and receipt, and the next normal run removes the matching claim without changing receipt bytes.
+  F08: A directly seeded claimed job with an exactly matching receipt is completed idempotently and is not quarantined.
+  F12: Test 13 fails because an after-claim exit leaves a valid job in claimed with no receipt, and recovery neither processes nor quarantines it.
+  F13: Test 15 fails because a claimed job facing conflicting receipt bytes is deleted instead of being preserved in quarantine.
+
+[2001-01-01T10:00:00Z] E11 diagnosis
+Traced both failures to recover_claimed: it ignores orphan claims and treats receipt existence as equality.
+Recorded facts:
+  F10: Current recover_claimed deletes a valid claimed job whenever any regular receipt exists, without comparing that receipt with the canonical expected bytes.
+  F12: Test 13 fails because an after-claim exit leaves a valid job in claimed with no receipt, and recovery neither processes nor quarantines it.
+  F13: Test 15 fails because a claimed job facing conflicting receipt bytes is deleted instead of being preserved in quarantine.
+  F17: A claimed job may be removed only after exact receipt-byte equality; absence requires processing, and inequality requires byte-preserving quarantine.
+  F20: First, replace recover_claimed with the same canonical parse, expected-receipt comparison, processing, and quarantine path used for newly claimed jobs.
+
+[2001-01-01T10:03:00Z] E12 handoff
+Stopped immediately after diagnosis, leaving an uncommitted diff and an ordered safe restart action.
+Recorded facts:
+  F09: The frozen snapshot records uncommitted modifications that add claim-and-recover code and four recovery tests over the base files.
+  F11: Current run scans and processes new inbox work before invoking recover_claimed, contrary to the required recovery-first order.
+  F20: First, replace recover_claimed with the same canonical parse, expected-receipt comparison, processing, and quarantine path used for newly claimed jobs.
+  F21: Then move recovery ahead of inbox scanning and rerun tests 13 through 16 before running the complete visible suite.
+  F22: The safe restart command is python3 -m unittest -v; success requires sixteen passing tests with no dependency or interface changes.
+
+END OF ARCHIVE
+The final event is current; earlier attempts remain above as history.

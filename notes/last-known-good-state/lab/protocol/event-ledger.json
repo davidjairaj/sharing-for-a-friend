@@ -1,0 +1,265 @@
+{
+  "schema": 1,
+  "study_id": "interrupted-spool-v1",
+  "clock": "Synthetic UTC timestamps; no event claims wall-clock provenance.",
+  "final_test": {
+    "command": "python3 -m unittest -v",
+    "ran": 16,
+    "passed": 14,
+    "failed": 2,
+    "failure_ids": [
+      "test_13_recovers_job_left_after_claim",
+      "test_15_conflicting_receipt_for_claimed_job_quarantines_original"
+    ]
+  },
+  "facts": [
+    {
+      "id": "F01",
+      "category": "verified",
+      "statement": "The deterministic base commit passes all twelve legacy tests, covering canonical receipts, conflict preservation, malformed input, ordering, usage errors, and symlink rejection.",
+      "evidence": "python3 -m unittest -v in the base tree; 12 tests ran and passed",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F02",
+      "category": "verified",
+      "statement": "The frozen interrupted worktree runs sixteen visible tests and passes exactly fourteen; only tests 13 and 15 fail.",
+      "evidence": "final visible test run recorded at event E10",
+      "packets": ["raw", "snapshot", "prose", "structured"]
+    },
+    {
+      "id": "F03",
+      "category": "verified",
+      "statement": "Atomic receipt publication is implemented with a fully written and synced temporary file followed by no-overwrite hard-link publication.",
+      "evidence": "publish_receipt implementation and passing receipt tests",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F04",
+      "category": "verified",
+      "statement": "Canonical parsing, semantic hashing, deterministic receipt bytes, lexicographic inbox order, and idempotent handling of an identical inbox receipt all pass visible tests.",
+      "evidence": "visible tests 01 through 05",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F05",
+      "category": "verified",
+      "statement": "Malformed and unsafe-ID inbox jobs reach quarantine without byte changes, while non-JSON entries remain untouched.",
+      "evidence": "visible tests 06 through 08",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F06",
+      "category": "verified",
+      "statement": "Missing layout elements, symlinked operational directories, and symlinked JSON candidates return boundary status 2 without touching their linked targets.",
+      "evidence": "visible tests 10 through 12",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F07",
+      "category": "verified",
+      "statement": "A crash injected after receipt publication exits 86, leaves both claim and receipt, and the next normal run removes the matching claim without changing receipt bytes.",
+      "evidence": "visible test 14 passes",
+      "packets": ["raw", "snapshot", "prose", "structured"]
+    },
+    {
+      "id": "F08",
+      "category": "verified",
+      "statement": "A directly seeded claimed job with an exactly matching receipt is completed idempotently and is not quarantined.",
+      "evidence": "visible test 16 passes",
+      "packets": ["raw", "snapshot", "prose", "structured"]
+    },
+    {
+      "id": "F09",
+      "category": "current",
+      "statement": "The frozen snapshot records uncommitted modifications that add claim-and-recover code and four recovery tests over the base files.",
+      "evidence": "snapshot Git status and working-tree diff",
+      "packets": ["raw", "snapshot", "prose", "structured"]
+    },
+    {
+      "id": "F10",
+      "category": "current",
+      "statement": "Current recover_claimed deletes a valid claimed job whenever any regular receipt exists, without comparing that receipt with the canonical expected bytes.",
+      "evidence": "recover_claimed implementation",
+      "packets": ["raw", "snapshot", "prose", "structured"]
+    },
+    {
+      "id": "F11",
+      "category": "current",
+      "statement": "Current run scans and processes new inbox work before invoking recover_claimed, contrary to the required recovery-first order.",
+      "evidence": "run implementation",
+      "packets": ["raw", "snapshot", "prose", "structured"]
+    },
+    {
+      "id": "F12",
+      "category": "defect",
+      "statement": "Test 13 fails because an after-claim exit leaves a valid job in claimed with no receipt, and recovery neither processes nor quarantines it.",
+      "evidence": "test_13_recovers_job_left_after_claim failure and filesystem inspection",
+      "packets": ["raw", "snapshot", "prose", "structured"]
+    },
+    {
+      "id": "F13",
+      "category": "defect",
+      "statement": "Test 15 fails because a claimed job facing conflicting receipt bytes is deleted instead of being preserved in quarantine.",
+      "evidence": "test_15_conflicting_receipt_for_claimed_job_quarantines_original failure",
+      "packets": ["raw", "snapshot", "prose", "structured"]
+    },
+    {
+      "id": "F14",
+      "category": "unknown",
+      "statement": "Crash recovery after quarantine is implemented but remains outside the visible suite, so it is unverified at the interruption point.",
+      "evidence": "no visible test exercises BEACON_CRASH_AT=after_quarantine",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F15",
+      "category": "unknown",
+      "statement": "No visible test covers multiple occupied quarantine suffixes or a receipt path that is itself a symbolic link.",
+      "evidence": "visible-suite coverage review",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F16",
+      "category": "decision",
+      "statement": "Recovery must finish all claimed candidates in lexicographic order before the program scans any new inbox candidate.",
+      "evidence": "public task ordering invariant",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F17",
+      "category": "decision",
+      "statement": "A claimed job may be removed only after exact receipt-byte equality; absence requires processing, and inequality requires byte-preserving quarantine.",
+      "evidence": "public idempotency and conflict invariants",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F18",
+      "category": "decision",
+      "statement": "Do not restore the discarded startup cleanup that unlinked every claimed file, because an after-claim exit has no receipt and that cleanup loses the only job copy.",
+      "evidence": "failed experiment at events E06 and E07",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F19",
+      "category": "history",
+      "statement": "The delete-all-claimed startup approach was tried, demonstrated to violate no-loss recovery, and reverted before the frozen worktree was captured.",
+      "evidence": "events E06 through E08",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F20",
+      "category": "next",
+      "statement": "First, replace recover_claimed with the same canonical parse, expected-receipt comparison, processing, and quarantine path used for newly claimed jobs.",
+      "evidence": "final diagnosis at event E11",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F21",
+      "category": "next",
+      "statement": "Then move recovery ahead of inbox scanning and rerun tests 13 through 16 before running the complete visible suite.",
+      "evidence": "ordered restart plan at event E12",
+      "packets": ["raw", "prose", "structured"]
+    },
+    {
+      "id": "F22",
+      "category": "next",
+      "statement": "The safe restart command is python3 -m unittest -v; success requires sixteen passing tests with no dependency or interface changes.",
+      "evidence": "public task and final command",
+      "packets": ["raw", "prose", "structured"]
+    }
+  ],
+  "events": [
+    {
+      "id": "E01",
+      "at": "2001-01-01T09:00:00Z",
+      "kind": "inspection",
+      "summary": "Read the public task and inspected the legacy implementation, visible suite, and clean Git state.",
+      "fact_ids": ["F01", "F16", "F17"]
+    },
+    {
+      "id": "E02",
+      "at": "2001-01-01T09:04:00Z",
+      "kind": "test",
+      "summary": "Ran the base suite once; all twelve legacy tests passed.",
+      "command": "python3 -m unittest -v",
+      "result": "Ran 12 tests; OK",
+      "fact_ids": ["F01"]
+    },
+    {
+      "id": "E03",
+      "at": "2001-01-01T09:12:00Z",
+      "kind": "implementation",
+      "summary": "Added atomic claiming, receipt crash injection, and a first recover_claimed function while retaining atomic no-overwrite receipt publication.",
+      "fact_ids": ["F03", "F09"]
+    },
+    {
+      "id": "E04",
+      "at": "2001-01-01T09:19:00Z",
+      "kind": "test",
+      "summary": "The legacy suite remained green after the claim path was introduced.",
+      "command": "python3 -m unittest -v BeaconSpoolLegacyTests",
+      "result": "Ran 12 tests; OK",
+      "fact_ids": ["F03", "F04", "F05", "F06"]
+    },
+    {
+      "id": "E05",
+      "at": "2001-01-01T09:27:00Z",
+      "kind": "test-addition",
+      "summary": "Added four visible recovery tests for after-claim, after-receipt, claimed conflict, and matching claimed receipt behaviour.",
+      "fact_ids": ["F07", "F08", "F09"]
+    },
+    {
+      "id": "E06",
+      "at": "2001-01-01T09:33:00Z",
+      "kind": "failed-approach",
+      "summary": "Tried deleting every claimed file during startup as cleanup for interrupted runs.",
+      "fact_ids": ["F18", "F19"]
+    },
+    {
+      "id": "E07",
+      "at": "2001-01-01T09:36:00Z",
+      "kind": "test",
+      "summary": "The after-claim scenario proved that blanket cleanup destroys the only copy of an uncommitted job.",
+      "command": "python3 -m unittest -v test_beacon_spool.BeaconSpoolLegacyTests.test_13_recovers_job_left_after_claim",
+      "result": "FAILED: receipt absent and claimed job deleted",
+      "fact_ids": ["F18", "F19"]
+    },
+    {
+      "id": "E08",
+      "at": "2001-01-01T09:41:00Z",
+      "kind": "revert",
+      "summary": "Reverted blanket claimed-file deletion and replaced it with receipt-aware-looking recovery logic.",
+      "fact_ids": ["F10", "F19"]
+    },
+    {
+      "id": "E09",
+      "at": "2001-01-01T09:48:00Z",
+      "kind": "inspection",
+      "summary": "Reviewed remaining coverage and recorded crash-after-quarantine, quarantine suffix collision, and receipt symlink cases as unverified.",
+      "fact_ids": ["F14", "F15"]
+    },
+    {
+      "id": "E10",
+      "at": "2001-01-01T09:54:00Z",
+      "kind": "test",
+      "summary": "Ran the complete frozen visible suite: fourteen of sixteen tests passed, with only tests 13 and 15 failing.",
+      "command": "python3 -m unittest -v",
+      "result": "Ran 16 tests; FAILED (failures=2); passing=14",
+      "fact_ids": ["F02", "F07", "F08", "F12", "F13"]
+    },
+    {
+      "id": "E11",
+      "at": "2001-01-01T10:00:00Z",
+      "kind": "diagnosis",
+      "summary": "Traced both failures to recover_claimed: it ignores orphan claims and treats receipt existence as equality.",
+      "fact_ids": ["F10", "F12", "F13", "F17", "F20"]
+    },
+    {
+      "id": "E12",
+      "at": "2001-01-01T10:03:00Z",
+      "kind": "handoff",
+      "summary": "Stopped immediately after diagnosis, leaving an uncommitted diff and an ordered safe restart action.",
+      "fact_ids": ["F09", "F11", "F20", "F21", "F22"]
+    }
+  ]
+}

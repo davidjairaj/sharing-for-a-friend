@@ -1,0 +1,7 @@
+$ python3 -m unittest -v
+Ran 16 tests
+Passed 14
+Failed 2
+FAIL: test_13_recovers_job_left_after_claim
+FAIL: test_15_conflicting_receipt_for_claimed_job_quarantines_original
+FAILED (failures=2)

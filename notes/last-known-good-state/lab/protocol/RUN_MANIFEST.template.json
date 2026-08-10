@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "template": true,
+  "frozen": false,
+  "study_id": "interrupted-spool-v1",
+  "study_lock": {
+    "sha256": "REQUIRED"
+  },
+  "freeze_and_anchor": {
+    "canonicalization": "UTF-8 JSON; sort_keys=true; separators=(',',':'); ensure_ascii=true; one trailing LF",
+    "manifest_filename": "RUN_MANIFEST.json",
+    "detached_manifest_digest_filename": "RUN_MANIFEST.sha256",
+    "combined_commitment_scheme": "interrupted-spool-anchor-v1",
+    "external_anchor_method": "REQUIRED",
+    "external_anchor_authority": "REQUIRED",
+    "external_anchor_receipt_filename": "RUN_MANIFEST.anchor.json"
+  },
+  "operator": {
+    "system": "REQUIRED",
+    "model": "REQUIRED",
+    "exact_build": "REQUIRED",
+    "reasoning_budget": "REQUIRED",
+    "tools": [
+      {
+        "name": "REQUIRED",
+        "version": "REQUIRED",
+        "access": "REQUIRED"
+      }
+    ]
+  },
+  "runtime": {
+    "python_version": "REQUIRED",
+    "git_version": "REQUIRED",
+    "os_name_and_version": "REQUIRED",
+    "architecture": "REQUIRED",
+    "filesystem": "REQUIRED",
+    "cpu_allocation": "REQUIRED",
+    "wall_limit_seconds": 1500
+  },
+  "assignment": {
+    "exact_run_count_per_condition": "REQUIRED_INTEGER",
+    "condition_block_size": 4,
+    "condition_block_seed": "REQUIRED",
+    "runs_in_execution_order": [
+      {
+        "order": 1,
+        "run_id": "REQUIRED",
+        "condition": "REQUIRED"
+      }
+    ]
+  },
+  "analysis": {
+    "version": "analysis-v1",
+    "practical_margin_verifier_points": 5,
+    "bootstrap_resamples": 10000,
+    "percentile_interval": [
+      0.025,
+      0.975
+    ],
+    "median_convention": "sort numeric values; odd n uses the middle value; even n uses the arithmetic mean of the two middle values",
+    "outcome_ids": [
+      "verifier_score",
+      "full_safety_pass",
+      "elapsed_seconds",
+      "operator_timeout",
+      "baseline_regression",
+      "relevant_edit_count",
+      "test_run_count",
+      "time_to_first_relevant_edit_seconds",
+      "no_relevant_edit",
+      "reconstruction_accuracy",
+      "unsupported_history_count",
+      "missing_reconstruction"
+    ],
+    "contrast_ids": [
+      "structured-minus-raw",
+      "structured-minus-snapshot",
+      "structured-minus-prose"
+    ]
+  },
+  "scorers": {
+    "candidate_invocation_timeout_seconds": 10,
+    "visible_harness_infrastructure_timeout_seconds": 210,
+    "sealed_verifier_version_or_digest": "REQUIRED",
+    "reconstruction_rubric_version_or_digest": "REQUIRED",
+    "rater_builds": [
+      "REQUIRED",
+      "REQUIRED"
+    ],
+    "adjudicator_build": "REQUIRED"
+  },
+  "owner_attestation": {
+    "manifest_filled_and_validated": false,
+    "manifest_frozen_before_pilots": false,
+    "reference_and_evaluator_inaccessible_to_operators": false,
+    "combined_lock_and_manifest_commitment_anchored": false,
+    "software_licence_decision_recorded": false
+  }
+}

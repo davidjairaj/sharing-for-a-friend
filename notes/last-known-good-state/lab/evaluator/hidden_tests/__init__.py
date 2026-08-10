@@ -1,0 +1,1 @@
+"""Sealed Beacon Spool scenarios."""
